@@ -13,17 +13,6 @@ resources:
     branch: master
     private_key: {{git_private_key}}
 
-- name: terraform-state
-  type: s3
-  source:
-    disable_ssl: false
-    access_key_id: {{aws_access_key_id}}
-    secret_access_key: {{aws_secret_access_key}}
-    endpoint: {{S3_ENDPOINT}}
-    bucket: {{S3_OUTPUT_BUCKET}}
-    region_name: {{aws_region}}
-    versioned_file: terraform.tfstate
-
 - name: patched-pipeline
   type: s3
   source:
