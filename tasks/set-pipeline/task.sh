@@ -1,5 +1,4 @@
 #!/bin/bash
-
 set -eu
 
 echo "$PIPELINE_PARAMS" > params.yml
