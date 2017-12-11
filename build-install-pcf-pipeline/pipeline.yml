@@ -22,7 +22,7 @@ jobs:
   - task: patch-pipeline
     file: brkt-pcf-pipelines/tasks/patch-pipeline/task.yml
   - task: set-pipeline
-    file: pcf-pipelines/tasks/set-pipeline/task.yml
+    file: brkt-pcf-pipelines/tasks/set-pipeline/task.yml
     params:
       PIPELINE_NAME: {{pipeline_name}}
       PIPELINE_PATH: patched-pipeline/pipeline.yml
