@@ -13,14 +13,63 @@ resources:
     branch: master
     private_key: {{git_private_key}}
 
+- name: terraform-state
+  type: s3
+  source:
+    disable_ssl: false
+    access_key_id: {{aws_access_key_id}}
+    secret_access_key: {{aws_secret_access_key}}
+    endpoint: {{S3_ENDPOINT}}
+    bucket: {{S3_OUTPUT_BUCKET}}
+    region_name: {{aws_region}}
+    versioned_file: terraform.tfstate
+
+- name: patched-pipeline
+  type: s3
+  source:
+    disable_ssl: false
+    access_key_id: {{aws_access_key_id}}
+    secret_access_key: {{aws_secret_access_key}}
+    endpoint: {{S3_ENDPOINT}}
+    bucket: {{PATCHED_PIPELINE_S3_OUTPUT_BUCKET}}
+    region_name: {{aws_region}}
+    versioned_file: pipeline.yml
+
 jobs:
-- name: build-install-brkt-pcf-pipeline
+- name: create-initial-states
+  plan:
+  - aggregate:
+    - get: brkt-pcf-pipelines
+    - get: terraform-state
+    - get: patched-pipeline
+  - task: create-initial-states
+    params:
+      S3_BUCKET_TERRAFORM: {{S3_OUTPUT_BUCKET}}
+      S3_BUCKET_PATCHED_PIPELINE: {{PATCHED_PIPELINE_S3_OUTPUT_BUCKET}}
+      S3_ENDPOINT: {{S3_ENDPOINT}}
+      S3_REGION: {{aws_region}}
+      AWS_ACCESS_KEY_ID: {{aws_access_key_id}}
+      AWS_SECRET_ACCESS_KEY: {{aws_secret_access_key}}
+    file: brkt-pcf-pipelines/tasks/create-initial-states/task.yml
+
+- name: patch-pipeline
   plan:
   - aggregate:
     - get: pcf-pipelines
     - get: brkt-pcf-pipelines
+    - get: patched-pipeline
   - task: patch-pipeline
     file: brkt-pcf-pipelines/tasks/patch-pipeline/task.yml
+  - put: patched-pipeline
+    params:
+      file: generated-pipeline/pipeline.yml
+
+- name: set-pipeline
+  - aggregate:
+    - get: pcf-pipelines
+    - get: brkt-pcf-pipelines
+    - get: patched-pipeline
+      trigger: true
   - task: set-pipeline
     file: brkt-pcf-pipelines/tasks/set-pipeline/task.yml
     params:
