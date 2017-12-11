@@ -24,7 +24,7 @@ jobs:
   - task: set-pipeline
     file: pcf-pipelines/tasks/set-pipeline/task.yml
     params:
-      PIPELINE_NAME: brkt-install-pcf
+      PIPELINE_NAME: {{pipeline_name}}
       PIPELINE_PATH: patched-pipeline/pipeline.yml
       PIPELINE_PARAMS: {{install_pcf_pipeline_params}}
       ATC_EXTERNAL_URL: {{concourse_url}}
