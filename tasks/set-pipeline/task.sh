@@ -22,6 +22,12 @@ chmod +x fly
   --password "${ATC_BASIC_AUTH_PASSWORD}" \
   --team-name "${ATC_TEAM_NAME}"
 
+sleep 100
+
+cat params.yml
+
+sleep 300
+
 ./fly --target self set-pipeline \
   --non-interactive \
   --pipeline "${PIPELINE_NAME}" \
