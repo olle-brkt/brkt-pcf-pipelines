@@ -36,13 +36,12 @@ resources:
     versioned_file: pipeline.yml
 
 jobs:
-- name: create-initial-states
+- name: create-initial-state
   plan:
   - aggregate:
+    - get: pcf-pipelines
     - get: brkt-pcf-pipelines
-    - get: terraform-state
-    - get: patched-pipeline
-  - task: create-initial-states
+  - task: create-initial-state
     params:
       S3_BUCKET_TERRAFORM: {{S3_OUTPUT_BUCKET}}
       S3_BUCKET_PATCHED_PIPELINE: {{PATCHED_PIPELINE_S3_OUTPUT_BUCKET}}
@@ -50,7 +49,7 @@ jobs:
       S3_REGION: {{aws_region}}
       AWS_ACCESS_KEY_ID: {{aws_access_key_id}}
       AWS_SECRET_ACCESS_KEY: {{aws_secret_access_key}}
-    file: brkt-pcf-pipelines/tasks/create-initial-states/task.yml
+    file: brkt-pcf-pipelines/tasks/create-initial-state/task.yml
 
 - name: patch-pipeline
   plan:
@@ -65,11 +64,13 @@ jobs:
       file: generated-pipeline/pipeline.yml
 
 - name: set-pipeline
+  plan:
   - aggregate:
     - get: pcf-pipelines
     - get: brkt-pcf-pipelines
     - get: patched-pipeline
       trigger: true
+      passed: [patch-pipeline]
   - task: set-pipeline
     file: brkt-pcf-pipelines/tasks/set-pipeline/task.yml
     params:
