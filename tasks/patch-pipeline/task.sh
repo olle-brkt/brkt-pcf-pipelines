@@ -2,6 +2,6 @@
 
 set -eu
 
-mkdir patched-pipeline
+mkdir -p patched-pipeline
 # Do ops here:
 cat pcf-pipelines/install-pcf/aws/pipeline.yml > patched-pipeline/pipeline.yml
