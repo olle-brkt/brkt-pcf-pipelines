@@ -17,4 +17,4 @@ params:
   AWS_SECRET_ACCESS_KEY:
 
 run:
-  path: pcf-pipelines/tasks/create-initial-terraform-state/task.sh
+  path: brkt-pcf-pipelines/tasks/create-initial-terraform-state/task.sh
