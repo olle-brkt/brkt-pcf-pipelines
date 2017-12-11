@@ -2,10 +2,7 @@
 
 set -eu
 
-IFS=$'\n'
-for line in $PIPELINE_PARAMS; do
-  echo "$line" >> params.yml
-done
+echo "$PIPELINE_PARAMS" > params.yml
 
 curl \
   --silent \
@@ -22,11 +19,7 @@ chmod +x fly
   --password "${ATC_BASIC_AUTH_PASSWORD}" \
   --team-name "${ATC_TEAM_NAME}"
 
-sleep 100
-
 cat params.yml
-
-sleep 300
 
 ./fly --target self set-pipeline \
   --non-interactive \
