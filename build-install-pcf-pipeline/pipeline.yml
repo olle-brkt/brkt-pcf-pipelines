@@ -27,6 +27,8 @@ jobs:
       PIPELINE_NAME: {{pipeline_name}}
       PIPELINE_PATH: patched-pipeline/pipeline.yml
       PIPELINE_PARAMS: {{install_pcf_pipeline_params}}
+      PEM: {{pem}}
+      GIT_PRIVATE_KEY: {{git_private_key}}
       ATC_EXTERNAL_URL: {{concourse_url}}
       ATC_BASIC_AUTH_USERNAME: {{basic_auth_username}}
       ATC_BASIC_AUTH_PASSWORD: {{basic_auth_password}}

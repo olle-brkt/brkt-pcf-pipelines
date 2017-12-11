@@ -25,4 +25,6 @@ cat params.yml
   --non-interactive \
   --pipeline "${PIPELINE_NAME}" \
   --config "${PIPELINE_PATH}" \
-  --load-vars-from params.yml
+  --load-vars-from params.yml \
+  --var "PEM=${PEM}" \
+  --var "git_private_key=${GIT_PRIVATE_KEY}"

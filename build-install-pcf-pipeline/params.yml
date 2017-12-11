@@ -5,7 +5,10 @@ basic_auth_username:
 basic_auth_password:
 team_name:
 
+# Need to load PEM's separatly because of concourse limitation
 git_private_key:
+# Private Key of the keypair uploaded to AWS to be used for Operations Manager, NAT VMs.
+pem:
 
 install_pcf_pipeline_params: |
   # Setting appropriate Application Security Groups is critical for a secure
@@ -18,7 +21,6 @@ install_pcf_pipeline_params: |
   pivnet_token: # Pivnet token for downloading resources from Pivnet. Find this token at https://network.pivotal.io/users/dashboard/edit-profile
   opsman_major_minor_version: ^1\.12\..*$ # PCF Ops Manager minor version to track
   ert_major_minor_version: ^1\.12\..*$    # PCF Elastic Runtime minor version to track
-  git_private_key:
 
   # Errands to disable prior to deploying ERT
   # Valid values:
@@ -123,9 +125,6 @@ install_pcf_pipeline_params: |
   opsman_client_secret:
   opsman_admin_username:
   opsman_admin_password:
-
-  # Private Key of the keypair uploaded to AWS to be used for Operations Manager, NAT VMs.
-  PEM:
 
   # Upload PEM to AWS as the below key pair name
   aws_key_name:
