@@ -14,7 +14,7 @@ resources:
     private_key: {{git_private_key}}
 
 jobs:
-- name: build-brkt-install-pcf-pipeline
+- name: build-install-brkt-pcf-pipeline
   plan:
   - aggregate:
     - get: pcf-pipelines
