@@ -1,0 +1,33 @@
+resources:
+- name: pcf-pipelines
+  type: git
+  source:
+    uri: git@github.com:pivotal-cf/pcf-pipelines.git
+    branch: master
+    private_key: {{git_private_key}}
+
+- name: brkt-pcf-pipelines
+  type: git
+  source:
+    uri: git@github.com:olle-brkt/brkt-pcf-pipelines.git
+    branch: master
+    private_key: {{git_private_key}}
+
+jobs:
+- name: build-brkt-install-pcf-pipeline
+  plan:
+  - aggregate:
+    - get: pcf-pipelines
+    - get: brkt-pcf-pipelines
+  - task: patch-pipeline
+    file: brkt-pcf-pipelines/tasks/patch-pipeline/task.yml
+  - task: set-pipeline
+    file: pcf-pipelines/tasks/apply-changes/task.yml
+    params:
+      PIPELINE_NAME: brkt-install-pcf
+      PIPELINE_PATH: patched-pipeline/pipeline.yml
+      PIPELINE_PARAMS: {{install_pcf_pipeline_params}}
+      ATC_EXTERNAL_URL: {{concourse_url}}
+      ATC_BASIC_AUTH_USERNAME: {{basic_auth_username}}
+      ATC_BASIC_AUTH_PASSWORD: {{basic_auth_password}}
+      ATC_TEAM_NAME: {{team_name}}
