@@ -41,6 +41,7 @@ install_pcf_pipeline_params: |
   service_domain: CHANGEME
   brkt_email: CHANGEME
   brkt_password: CHANGEME
+  # in the format: metavisor-<major>-<minor>-<patch> example: metavisor-2-15-60
   mv_version: CHANGEME
 
   pivnet_token: CHANGEME                  # Pivnet token for downloading resources from Pivnet. Find this token at https://network.pivotal.io/users/dashboard/edit-profile
