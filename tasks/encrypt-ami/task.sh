@@ -1,10 +1,12 @@
 #!/bin/bash
 set -eu
 
-pip install brkt-cli 1>/dev/null
-
 ami=$(cat stock_ami/ami)
 
+echo "Installing brkt-cli"
+pip install brkt-cli 1>/dev/null
+
+echo "Getting token from https://$SERVICE_DOMAIN"
 auth_cmd="brkt auth --email $EMAIL --password $PASSWORD --root-url https://$SERVICE_DOMAIN"
 export BRKT_API_TOKEN=`$auth_cmd`
 
@@ -20,7 +22,7 @@ wait
 
 output_ami=`tail -1 encrypt.log | awk '{print $1}'`
 if ! [[ $output_ami =~ ^ami- ]]; then
-    echo "Encryption failed in region $region"
+    echo "Encryption failed in region $REGION"
     exit 1
 fi
 
