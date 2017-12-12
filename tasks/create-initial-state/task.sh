@@ -16,7 +16,6 @@ if [ "$?" -gt "0" ]; then
   fi
 else
   echo "terraform.tfstate file found, skipping"
-  exit 0
 fi
 
 # initialize patched-pipeline state
@@ -34,5 +33,4 @@ if [ "$?" -gt "0" ]; then
   fi
 else
   echo "pipeline.yml file found, skipping"
-  exit 0
 fi
