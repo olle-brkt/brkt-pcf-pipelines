@@ -19,11 +19,11 @@ curl \
 chmod +x fly
 
 # Do ops here:
-./fly format-pipeline -c <(
-  cat pcf-pipelines/install-pcf/aws/pipeline.yml |
-  ./yaml-patch \
+cat pcf-pipelines/install-pcf/aws/pipeline.yml | ./yaml-patch \
     -o brkt-pcf-pipelines/operations/remove-bootstrap-tf-state.yml \
     -o brkt-pcf-pipelines/operations/add-brkt-pcf-pipelines-resource.yml \
     -o brkt-pcf-pipelines/operations/add-encrypt-opsman.yml \
-    -o brkt-pcf-pipelines/operations/update-resources-to-include-bpcfp-res.yml
-) > generated-pipeline/pipeline.yml
+    -o brkt-pcf-pipelines/operations/update-resources-to-include-bpcfp-res.yml \
+    > messy_pipeline.yml
+
+./fly format-pipeline -c messy_pipeline.yml > generated-pipeline/pipeline.yml

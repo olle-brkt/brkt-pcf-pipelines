@@ -1,11 +1,11 @@
 #!/bin/bash
 set -eu
 
-pip install brkt-cli
+pip install brkt-cli 1>/dev/null
 
 ami=$(cat stock_ami/ami)
 
-auth_cmd="brkt auth --email $EMAIL --password $PASSWORD --root-url $SERVICE_DOMAIN"
+auth_cmd="brkt auth --email $EMAIL --password $PASSWORD --root-url https://$SERVICE_DOMAIN"
 export BRKT_API_TOKEN=`$auth_cmd`
 
 # echo "${CA_CERT}" > ${ROOT}/ca.crt
