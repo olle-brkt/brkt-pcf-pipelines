@@ -1,2 +1,2 @@
 - op: remove
-  path: jobs/name=bootstrap-terraform-state
+  path: /jobs/name=bootstrap-terraform-state
