@@ -1,0 +1,4 @@
+- op: add
+  path: /jobs/name=create-infrastructure/plan/aggregate/-
+  value:
+    get: brkt-pcf-pipelines

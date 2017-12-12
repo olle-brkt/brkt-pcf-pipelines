@@ -24,5 +24,6 @@ chmod +x fly
   ./yaml-patch \
     -o brkt-pcf-pipelines/operations/remove-bootstrap-tf-state.yml \
     -o brkt-pcf-pipelines/operations/add-brkt-pcf-pipelines-resource.yml \
-    -o brkt-pcf-pipelines/operations/add-encrypt-opsman.yml
+    -o brkt-pcf-pipelines/operations/add-encrypt-opsman.yml \
+    -o /Users/olle/work/brkt-pcf-pipelines/operations/update-resources-to-include-bpcfp-res.yml
 ) > generated-pipeline/pipeline.yml
