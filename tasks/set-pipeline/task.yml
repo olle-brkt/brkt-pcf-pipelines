@@ -1,15 +1,12 @@
 platform: linux
-
 image_resource:
   type: docker-image
   source:
     repository: czero/rootfs
-
 inputs:
 - name: pcf-pipelines
 - name: brkt-pcf-pipelines
 - name: patched-pipeline
-
 params:
   PIPELINE:
   PIPELINE_PATH:
@@ -20,6 +17,5 @@ params:
   ATC_BASIC_AUTH_USERNAME:
   ATC_BASIC_AUTH_PASSWORD:
   ATC_TEAM_NAME:
-
 run:
   path: brkt-pcf-pipelines/tasks/set-pipeline/task.sh

@@ -8,5 +8,7 @@ inputs:
 - name: brkt-pcf-pipelines
 outputs:
 - name: generated-pipeline
+params:
+  ATC_EXTERNAL_URL:
 run:
   path: brkt-pcf-pipelines/tasks/patch-pipeline/task.sh

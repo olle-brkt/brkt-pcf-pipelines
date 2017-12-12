@@ -1,44 +1,42 @@
+groups: []
 resources:
 - name: pcf-pipelines
   type: git
   source:
-    uri: git@github.com:pivotal-cf/pcf-pipelines.git
     branch: master
     private_key: {{git_private_key}}
-
+    uri: git@github.com:pivotal-cf/pcf-pipelines.git
 - name: brkt-pcf-pipelines
   type: git
   source:
-    uri: git@github.com:olle-brkt/brkt-pcf-pipelines.git
     branch: master
     private_key: {{git_private_key}}
-
+    uri: git@github.com:olle-brkt/brkt-pcf-pipelines.git
 - name: patched-pipeline
   type: s3
   source:
-    disable_ssl: false
     access_key_id: {{aws_access_key_id}}
-    secret_access_key: {{aws_secret_access_key}}
-    endpoint: {{S3_ENDPOINT}}
     bucket: {{PATCHED_PIPELINE_S3_OUTPUT_BUCKET}}
+    disable_ssl: false
+    endpoint: {{S3_ENDPOINT}}
     region_name: {{aws_region}}
+    secret_access_key: {{aws_secret_access_key}}
     versioned_file: pipeline.yml
-
+resource_types: []
 jobs:
 - name: create-initial-state
   plan:
   - aggregate:
     - get: brkt-pcf-pipelines
   - task: create-initial-state
+    file: brkt-pcf-pipelines/tasks/create-initial-state/task.yml
     params:
-      S3_BUCKET_TERRAFORM: {{S3_OUTPUT_BUCKET}}
-      S3_BUCKET_PATCHED_PIPELINE: {{PATCHED_PIPELINE_S3_OUTPUT_BUCKET}}
-      S3_ENDPOINT: {{S3_ENDPOINT}}
-      S3_REGION: {{aws_region}}
       AWS_ACCESS_KEY_ID: {{aws_access_key_id}}
       AWS_SECRET_ACCESS_KEY: {{aws_secret_access_key}}
-    file: brkt-pcf-pipelines/tasks/create-initial-state/task.yml
-
+      S3_BUCKET_PATCHED_PIPELINE: {{PATCHED_PIPELINE_S3_OUTPUT_BUCKET}}
+      S3_BUCKET_TERRAFORM: {{S3_OUTPUT_BUCKET}}
+      S3_ENDPOINT: {{S3_ENDPOINT}}
+      S3_REGION: {{aws_region}}
 - name: patch-pipeline
   plan:
   - aggregate:
@@ -50,24 +48,24 @@ jobs:
   - put: patched-pipeline
     params:
       file: generated-pipeline/pipeline.yml
-
 - name: set-pipeline
   plan:
   - aggregate:
     - get: pcf-pipelines
     - get: brkt-pcf-pipelines
     - get: patched-pipeline
+      passed:
+      - patch-pipeline
       trigger: true
-      passed: [patch-pipeline]
   - task: set-pipeline
     file: brkt-pcf-pipelines/tasks/set-pipeline/task.yml
     params:
-      PIPELINE_NAME: {{pipeline_name}}
-      PIPELINE_PATH: patched-pipeline/pipeline.yml
-      PIPELINE_PARAMS: {{install_pcf_pipeline_params}}
-      PEM: {{pem}}
-      GIT_PRIVATE_KEY: {{git_private_key}}
-      ATC_EXTERNAL_URL: {{concourse_url}}
-      ATC_BASIC_AUTH_USERNAME: {{basic_auth_username}}
       ATC_BASIC_AUTH_PASSWORD: {{basic_auth_password}}
+      ATC_BASIC_AUTH_USERNAME: {{basic_auth_username}}
+      ATC_EXTERNAL_URL: {{concourse_url}}
       ATC_TEAM_NAME: {{team_name}}
+      GIT_PRIVATE_KEY: {{git_private_key}}
+      PEM: {{pem}}
+      PIPELINE_NAME: {{pipeline_name}}
+      PIPELINE_PARAMS: {{install_pcf_pipeline_params}}
+      PIPELINE_PATH: patched-pipeline/pipeline.yml
