@@ -45,6 +45,8 @@ jobs:
     - get: patched-pipeline
   - task: patch-pipeline
     file: brkt-pcf-pipelines/tasks/patch-pipeline/task.yml
+    params:
+      ATC_EXTERNAL_URL: {{concourse_url}}
   - put: patched-pipeline
     params:
       file: generated-pipeline/pipeline.yml
