@@ -6,8 +6,8 @@ ami=$(cat stock_ami/ami)
 echo "Installing brkt-cli"
 pip install brkt-cli 1>/dev/null
 
-echo "Getting token from https://$SERVICE_DOMAIN:443"
-auth_cmd="brkt auth --email $EMAIL --password $PASSWORD --root-url https://$SERVICE_DOMAIN:443"
+echo "Getting token from https://api.$SERVICE_DOMAIN:443"
+auth_cmd="brkt auth --email $EMAIL --password $PASSWORD --root-url https://api.$SERVICE_DOMAIN:443"
 echo "Running command: brkt auth --email $EMAIL --password ***** --root-url https://$SERVICE_DOMAIN:443"
 export BRKT_API_TOKEN=`$auth_cmd`
 
