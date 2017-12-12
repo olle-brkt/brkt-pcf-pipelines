@@ -28,7 +28,6 @@ jobs:
 - name: create-initial-state
   plan:
   - aggregate:
-    - get: pcf-pipelines
     - get: brkt-pcf-pipelines
   - task: create-initial-state
     params:
