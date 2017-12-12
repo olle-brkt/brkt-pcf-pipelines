@@ -2,6 +2,7 @@
 set -eu
 
 curl \
+  -L \
   --silent \
   --insecure \
   --output yaml-patch \
