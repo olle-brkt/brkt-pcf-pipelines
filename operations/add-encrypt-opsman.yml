@@ -1,5 +1,5 @@
 - op: replace
-  path: jobs/name=create-infrastructure/plan/task=find-ami
+  path: /jobs/name=create-infrastructure/plan/task=find-ami
   value:
     do:
       - task: find-ami
