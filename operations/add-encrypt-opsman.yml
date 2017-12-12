@@ -27,7 +27,7 @@
         params:
           REGION: {{aws_region}}
       - task: encrypt-ami
-        file: brkt-pcf-pipelines/tasks/encrypt_ami/task.yml
+        file: brkt-pcf-pipelines/tasks/encrypt-ami/task.yml
         params:
           AWS_ACCESS_KEY_ID: {{aws_access_key_id}}
           AWS_SECRET_ACCESS_KEY: {{aws_secret_access_key}}
