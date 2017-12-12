@@ -19,13 +19,13 @@ else
 fi
 
 # initialize patched-pipeline state
-files=$(aws --endpoint-url $S3_ENDPOINT --region $S3_REGION s3 ls "${S3_PATCHED_PIPELINE}/")
+files=$(aws --endpoint-url $S3_ENDPOINT --region $S3_REGION s3 ls "${S3_BUCKET_PATCHED_PIPELINE}/")
 
 set +e
 echo $files | grep pipeline.yml
 if [ "$?" -gt "0" ]; then
   echo "initial_state: true" > pipeline.yml
-  aws s3 --endpoint-url $S3_ENDPOINT --region $S3_REGION cp pipeline.yml "s3://${S3_PATCHED_PIPELINE}/pipeline.yml"
+  aws s3 --endpoint-url $S3_ENDPOINT --region $S3_REGION cp pipeline.yml "s3://${S3_BUCKET_PATCHED_PIPELINE}/pipeline.yml"
   set +x
   if [ "$?" -gt "0" ]; then
     echo "Failed to upload empty pipeline.yml file"
