@@ -15,7 +15,7 @@ export BRKT_API_TOKEN=`$auth_cmd`
 # cmd="brkt aws encrypt --service-domain $SERVICE_DOMAIN --region $region --metavisor-version ${METAVISOR_VERSION} --ca-cert ${ROOT}/ca.crt $ami"
 
 echo "Encrypting stemcell image $ami"
-cmd="brkt aws encrypt --service-domain $SERVICE_DOMAIN --region $REGION --metavisor-version ${METAVISOR_VERSION} --no-single-disk --brkt-tag 'app=pcf' --brkt-tag 'role=opsmanager' $ami"
+cmd="brkt aws encrypt --service-domain $SERVICE_DOMAIN --region $REGION --metavisor-version ${METAVISOR_VERSION} --no-single-disk --brkt-tag app=pcf --brkt-tag role=opsmanager $ami"
 echo "Running command: $cmd"
 $cmd | tee encrypt.log &
 
