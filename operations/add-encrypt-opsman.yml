@@ -1,0 +1,38 @@
+- op: replace
+  path: /jobs/create-infrastructure/plan/task=find-ami
+  value:
+    do:
+      - task: find-ami
+        config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source:
+              repository: czero/rootfs
+          params:
+            REGION: {{aws_region}}
+          run:
+            path: bash
+            args:
+            - -c
+            - |
+              ami=$(grep $REGION pivnet-opsmgr/*.yml | cut -d' ' -f2)
+              echo $ami > stock_ami/ami
+          inputs:
+          - name: pivnet-opsmgr
+            path: ""
+          outputs:
+          - name: stock_ami
+            path: ""
+        params:
+          REGION: {{aws_region}}
+      - task: encrypt-ami
+        file: brkt-pcf-pipelines/tasks/encrypt_ami/task.yml
+        params:
+          AWS_ACCESS_KEY_ID: {{aws_access_key_id}}
+          AWS_SECRET_ACCESS_KEY: {{aws_secret_access_key}}
+          REGION: {{aws_region}}
+          SERVICE_DOMAIN: {{service_domain}}
+          EMAIL: {{brkt_email}}
+          PASSWORD: {{brkt_password}}
+          METAVISOR_VERSION: {{mv_version}}

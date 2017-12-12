@@ -1,0 +1,21 @@
+platform: linux
+image_resource:
+  type: docker-image
+  source:
+    repository: python
+    tag: 2.7.13-wheezy
+inputs:
+- name: stock_ami
+- name: brkt-pcf-pipelines
+outputs:
+- name: ami
+run:
+  path: brkt-pcf-pipelines/tasks/encrypt-ami/task.sh
+params:
+  AWS_ACCESS_KEY_ID:
+  AWS_SECRET_ACCESS_KEY:
+  REGION:
+  URL:
+  EMAIL:
+  PASSWORD:
+  METAVISOR_VERSION:
