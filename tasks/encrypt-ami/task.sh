@@ -13,7 +13,7 @@ echo "All encrypted AMI's in the format \"Metavisor_version.source_ami: encrypte
 ./yaml read -- $source_file
 
 echo "Searching for \"$key\":"
-encrypted_ami=`./yaml read -- $source_file \"$key\"`
+encrypted_ami=$(./yaml read -- $source_file \"$key\")
 
 if ! [ "$encrypted_ami" == "null" ]; then
     # Reusing previous encryption results to save time
@@ -27,8 +27,9 @@ else
 
     echo "Getting token from https://api.$SERVICE_DOMAIN:443"
     auth_cmd="brkt auth --email $EMAIL --password $PASSWORD --root-url https://api.$SERVICE_DOMAIN:443"
-    echo "Running command: export BRKT_API_TOKEN=\`brkt auth --email $EMAIL --password *** --root-url https://api.$SERVICE_DOMAIN:443\`"
-    export BRKT_API_TOKEN=`$auth_cmd`
+    echo "Running command: export BRKT_API_TOKEN=\$(brkt auth --email $EMAIL --password *** --root-url https://api.$SERVICE_DOMAIN:443)"
+    BRKT_API_TOKEN=$($auth_cmd)
+    export BRKT_API_TOKEN
 
     echo "Encrypting stemcell image $source_ami"
     cmd="brkt aws encrypt --service-domain $SERVICE_DOMAIN --region $REGION --metavisor-version ${METAVISOR_VERSION} --no-single-disk --brkt-tag app=pcf --brkt-tag role=opsmanager $source_ami"
@@ -38,7 +39,7 @@ else
     # Wait for all background tasks to complete
     wait
 
-    encrypted_ami=`tail -1 encrypt.log | awk '{print $1}'`
+    encrypted_ami=$(tail -1 encrypt.log | awk '{print $1}')
     if ! [[ $encrypted_ami =~ ^ami- ]]; then
         echo "Encryption failed in region $REGION"
         exit 1

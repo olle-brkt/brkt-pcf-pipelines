@@ -15,7 +15,7 @@ echo "All encrypted AMI's in the format \"Metavisor_version.source_ami: encrypte
 ./yaml read -- $source_file
 
 echo "Searching for \"$key\":"
-encrypted_ami=`./yaml read -- $source_file \"$key\"`
+encrypted_ami=$(./yaml read -- $source_file \"$key\")
 
 if ! [ "$encrypted_ami" == "null" ]; then
     echo "Source AMI $source_ami encrypted by $METAVISOR_VERSION found: $encrypted_ami"
@@ -23,3 +23,4 @@ if ! [ "$encrypted_ami" == "null" ]; then
 else
     echo "Error: Encrypted AMI is missing for some reason, trigger the encrypt job again"
     exit 1
+fi
