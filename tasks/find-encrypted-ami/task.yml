@@ -6,6 +6,7 @@ image_resource:
     tag: 2.7.13-wheezy
 inputs:
 - name: pivnet-opsmgr
+- name: brkt-pcf-pipelines
 - name: encrypted-amis
 outputs:
 - name: ami
