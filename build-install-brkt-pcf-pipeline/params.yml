@@ -121,6 +121,8 @@ install_pcf_pipeline_params: |
   # For terraform state file (http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region)
   S3_ENDPOINT: https://s3.amazonaws.com
   S3_OUTPUT_BUCKET: CHANGEME
+  # For holding encrypted amis
+  ENCRYPTED_AMIS_S3_OUTPUT_BUCKET: CHANGEME
 
   # The ERT domain to use; *.cfapps.<ert-domain> and *.sys.<ert-domain> will be used
   ERT_DOMAIN: CHANGEME
