@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eu
 
-ami=$(cat stock_ami/ami)
+ami=$(cat stock-ami/ami)
 
 touch pre_encrypted_ami
 
