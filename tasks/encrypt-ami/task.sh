@@ -27,7 +27,7 @@ else
 
     echo "Getting token from https://api.$SERVICE_DOMAIN:443"
     auth_cmd="brkt auth --email $EMAIL --password $PASSWORD --root-url https://api.$SERVICE_DOMAIN:443"
-    echo "Running command: export BRKT_API_TOKEN=\`brkt auth --email $EMAIL --password ***** --root-url https://api.$SERVICE_DOMAIN:443\`"
+    echo "Running command: export BRKT_API_TOKEN=\`brkt auth --email $EMAIL --password *** --root-url https://api.$SERVICE_DOMAIN:443\`"
     export BRKT_API_TOKEN=`$auth_cmd`
 
     echo "Encrypting stemcell image $source_ami"
