@@ -2,7 +2,7 @@
 set -eu
 
 source_ami=$(cat stock-ami/ami)
-key="$METAVISOR_VERSION-$source_ami"
+key="$METAVISOR_VERSION.$source_ami"
 source_file=encrypted-amis/encrypted-amis-map.yml
 output_file=results/encrypted-amis-map.yml
 
@@ -12,8 +12,8 @@ chmod +x yaml
 echo "All encrypted AMI's in the format \"Metavisor_version.source_ami: encrypted_ami\""
 ./yaml read -- $source_file
 
-echo "Searching for $key:"
-encrypted_ami=`./yaml read -- $source_file $key`
+echo "Searching for \"$key\":"
+encrypted_ami=`./yaml read -- $source_file \"$key\"`
 
 if ! [ "$encrypted_ami" == "null" ]; then
     # Reusing previous encryption results to save time
@@ -45,8 +45,8 @@ else
     fi
 
     echo "Source AMI $source_ami encrypted by $METAVISOR_VERSION: $encrypted_ami"
-    echo "Adding \"$METAVISOR_VERSION-$source_ami: $encrypted_ami\" to \"$source_file\""
-    ./yaml write -i -- $source_file $key $encrypted_ami
+    echo "Adding \"$key: $encrypted_ami\" to \"$source_file\""
+    ./yaml write -i -- $source_file \"$key\" $encrypted_ami
     echo "Copying over \"$source_file\" to \"$output_file\""
     cp $source_file $output_file
 fi
