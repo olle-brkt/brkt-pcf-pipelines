@@ -49,6 +49,7 @@ else
     ./yaml write -i -- $source_file $key $encrypted_ami
     echo "Copying over \"$source_file\" to \"$output_file\""
     cp $source_file $output_file
+fi
 
 echo "Results in \"$output_file\":"
 ./yaml read -- $output_file
