@@ -1,8 +1,8 @@
 #!/bin/bash
 set -eu
 
-echo "Installing yaml"
-pip install yaml 1>/dev/null
+echo "Installing pyyaml"
+pip install pyyaml 1>/dev/null
 
 touch encrypted_ami
 
