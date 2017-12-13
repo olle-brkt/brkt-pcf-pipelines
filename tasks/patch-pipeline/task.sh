@@ -1,21 +1,10 @@
 #!/bin/bash
 set -eu
 
-curl \
-  -L \
-  --silent \
-  --insecure \
-  --output yaml-patch \
-  "https://github.com/krishicks/yaml-patch/releases/download/v0.0.10/yaml_patch_linux"
-
+curl -L -s -k -o yaml-patch "https://github.com/krishicks/yaml-patch/releases/download/v0.0.10/yaml_patch_linux"
 chmod +x yaml-patch
 
-curl \
-  --silent \
-  --insecure \
-  --output fly \
-  "${ATC_EXTERNAL_URL}/api/v1/cli?arch=amd64&platform=linux"
-
+curl -L -s -k -o fly "${ATC_EXTERNAL_URL}/api/v1/cli?arch=amd64&platform=linux"
 chmod +x fly
 
 ##### Operations performed ####################################################

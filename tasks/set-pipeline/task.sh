@@ -3,11 +3,7 @@ set -eu
 
 echo "$PIPELINE_PARAMS" > params.yml
 
-curl \
-  --silent \
-  --insecure \
-  --output fly \
-  "${ATC_EXTERNAL_URL}/api/v1/cli?arch=amd64&platform=linux"
+curl -L -s -k -o fly "${ATC_EXTERNAL_URL}/api/v1/cli?arch=amd64&platform=linux"
 
 chmod +x fly
 
