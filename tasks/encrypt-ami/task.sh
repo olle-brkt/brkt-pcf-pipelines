@@ -2,7 +2,7 @@
 set -eu
 
 source_ami=$(cat stock-ami/ami)
-key="$METAVISOR_VERSION.$source_ami"
+key="$METAVISOR_VERSION-$source_ami"
 source_file=encrypted-amis/encrypted-amis-map.yml
 output_file=results/encrypted-amis-map.yml
 
@@ -45,7 +45,7 @@ else
     fi
 
     echo "Source AMI $source_ami encrypted by $METAVISOR_VERSION: $encrypted_ami"
-    echo "Adding \"$METAVISOR_VERSION.$source_ami: $encrypted_ami\" to \"$source_file\""
+    echo "Adding \"$METAVISOR_VERSION-$source_ami: $encrypted_ami\" to \"$source_file\""
     ./yaml write -i -- $source_file \"$key\" $encrypted_ami
     echo "Copying over \"$source_file\" to \"$output_file\""
     cp $source_file $output_file

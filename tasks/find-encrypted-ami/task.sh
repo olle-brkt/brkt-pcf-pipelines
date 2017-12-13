@@ -5,7 +5,7 @@ set -eu
 set -eu
 
 source_ami=$(grep $REGION pivnet-opsmgr/*.yml | cut -d' ' -f2)
-key="$METAVISOR_VERSION.$source_ami"
+key="$METAVISOR_VERSION-$source_ami"
 source_file=encrypted-amis/encrypted-amis-map.yml
 
 curl -L -s -k -o yaml "https://github.com/mikefarah/yaml/releases/download/1.13.1/yaml_linux_amd64"
