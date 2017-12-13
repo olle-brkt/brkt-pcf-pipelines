@@ -25,7 +25,7 @@ S3_OUTPUT_BUCKET: CHANGEME
 # For holding patched pipelines
 PATCHED_PIPELINE_S3_OUTPUT_BUCKET: CHANGEME
 # For holding encrypted amis
-ENCRYPTED_AMIS_PIPELINE_S3_OUTPUT_BUCKET: CHANGEME
+ENCRYPTED_AMIS_S3_OUTPUT_BUCKET: CHANGEME
 
 ###############################################################################
 # install-brkt-pcf params #####################################################
