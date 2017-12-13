@@ -1,0 +1,16 @@
+platform: linux
+image_resource:
+  type: docker-image
+  source:
+    repository: python
+    tag: 2.7.13-wheezy
+inputs:
+- name: pivnet-opsmgr
+- name: encrypted-amis
+outputs:
+- name: ami
+params:
+  REGION:
+  METAVISOR_VERSION:
+run:
+  path: brkt-pcf-pipelines/tasks/find-encrypted-ami/task.sh

@@ -1,13 +1,13 @@
 - op: add
   path: /resources/-
   value:
-    name: encrypted-opsman
+    name: encrypted-amis
     type: s3
     source:
       access_key_id: {{aws_access_key_id}}
-      bucket: {{ENCRYPTED_OPSMAN_PIPELINE_S3_OUTPUT_BUCKET}}
+      bucket: {{ENCRYPTED_AMIS_PIPELINE_S3_OUTPUT_BUCKET}}
       disable_ssl: false
       endpoint: {{S3_ENDPOINT}}
       region_name: {{aws_region}}
       secret_access_key: {{aws_secret_access_key}}
-      versioned_file: encrypted_opsman_amis.yml
+      versioned_file: encrypted-amis-map.yml

@@ -1,0 +1,49 @@
+- op: replace
+  path: /jobs/name=bootstrap-terraform-state
+  value:
+    name: encrypt-ops-manager
+    plan:
+    - aggregate:
+      - get: pivnet-opsmgr
+        params:
+          globs:
+          - '*AWS.yml'
+      - get: brkt-pcf-pipelines
+      - get: encrypted-amis
+    - task: find-ami
+      params:
+        REGION: {{aws_region}}
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: czero/rootfs
+        params:
+          REGION:
+        run:
+          path: bash
+          args:
+          - -c
+          - |
+            ami=$(grep $REGION pivnet-opsmgr/*.yml | cut -d' ' -f2)
+            echo $ami > stock-ami/ami
+        inputs:
+        - name: pivnet-opsmgr
+          path: ""
+        outputs:
+        - name: stock-ami
+          path: ""
+    - task: encrypt-ami
+      file: brkt-pcf-pipelines/tasks/encrypt-ami/task.yml
+      params:
+        AWS_ACCESS_KEY_ID: {{aws_access_key_id}}
+        AWS_SECRET_ACCESS_KEY: {{aws_secret_access_key}}
+        REGION: {{aws_region}}
+        SERVICE_DOMAIN: {{service_domain}}
+        EMAIL: {{brkt_email}}
+        PASSWORD: {{brkt_password}}
+        METAVISOR_VERSION: {{mv_version}}
+    - put: encrypted-amis
+      params:
+        file: encrypted-amis/encrypted-amis-map.yml

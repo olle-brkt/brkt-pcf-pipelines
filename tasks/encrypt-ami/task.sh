@@ -3,6 +3,46 @@ set -eu
 
 ami=$(cat stock_ami/ami)
 
+touch pre_encrypted_ami
+
+# If this metavisor version already has encrypted this source_ami, reuse it save time
+python <<EOF
+import yaml
+
+mv_ver = "$METAVISOR_VERSION"
+stock_ami = "$ami"
+
+print "Looking in 'encrypted-amis/encrypted-amis-map.yml' for %s that has been encrypted by %s" % (stock_ami, mv_ver)
+
+data = None
+with open('encrypted-amis/encrypted-amis-map.yml', 'r') as f:
+    data = yaml.safe_load(f)
+
+print "Currently encrypted amis: (in the format: Metavisor_version: [{source_ami:encrypted_ami}])"
+for mv in data.items():
+    print "%s: %s" % mv
+
+pre_enc_ami = None
+
+if mv_ver in data:
+    for ami in data[mv_ver]:
+        source_ami = ami.items()[0][0]
+        encrypted_ami = ami.items()[0][1]
+        if src_ami.items()[0][0] == stock_ami:
+            pre_enc_ami = src_ami.items()[0][1]
+
+
+with open('pre_encrypted_ami', 'w') as f:
+    if pre_enc_ami is None:
+        print "Can not reuse pre-encrypted ami, not found"
+        f.write("Not found")
+    else:
+        print "%s has already been encrypted by %s. Resulting ami %s. Reusing it to save time" % (stock_ami, mv_ver, pre_enc_ami)
+        f.write(pre_enc_ami)
+EOF
+
+if [[ `cat pre_encrypted_ami` =~ ^ami- ]] ; then cat pre_encrypted_ami > ami/ami; exit 0; fi
+
 echo "Installing brkt-cli"
 pip install brkt-cli 1>/dev/null
 
@@ -29,3 +69,33 @@ if ! [[ $output_ami =~ ^ami- ]]; then
 fi
 
 echo "$output_ami" > ami/ami
+
+# Update the encrypted-amis-map file to include new result
+python <<EOF
+import yaml
+
+mv_ver = "$METAVISOR_VERSION"
+stock_ami = "$ami"
+output_ami = "$output_ami"
+
+print "Adding '%s: [{%s:%s}]' to 'encrypted-amis/encrypted-amis-map.yml'" % (mv_ver, stock_ami, output_ami)
+
+data = None
+with open('encrypted-amis/encrypted-amis-map.yml', 'r') as f:
+    data = yaml.safe_load(f)
+
+pre_enc_ami = None
+
+if mv_ver in data:
+    data[mv_ver].append({stock_ami: output_ami})
+
+else:
+    data[mv_ver] = [{stock_ami: output_ami}]
+
+print "Currently encrypted amis: (in the format: Metavisor_version: [{source_ami:encrypted_ami}])"
+for mv in data.items():
+    print "%s: %s" % mv
+
+with open('encrypted-amis/encrypted-amis-map.yml', 'w') as f:
+    yaml.dump(data, f)
+EOF
