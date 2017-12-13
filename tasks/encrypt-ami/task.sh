@@ -13,7 +13,7 @@ echo "All encrypted AMI's in the format \"Metavisor_version.source_ami: encrypte
 ./yaml read -- $source_file
 
 echo "Searching for $key:"
-encrypted_ami=`./yaml read -- $source_file \"$key\"`
+encrypted_ami=`./yaml read -- $source_file $key`
 
 if ! [ "$encrypted_ami" == "null" ]; then
     # Reusing previous encryption results to save time
@@ -46,7 +46,7 @@ else
 
     echo "Source AMI $source_ami encrypted by $METAVISOR_VERSION: $encrypted_ami"
     echo "Adding \"$METAVISOR_VERSION-$source_ami: $encrypted_ami\" to \"$source_file\""
-    ./yaml write -i -- $source_file \"$key\" $encrypted_ami
+    ./yaml write -i -- $source_file $key $encrypted_ami
     echo "Copying over \"$source_file\" to \"$output_file\""
     cp $source_file $output_file
 
