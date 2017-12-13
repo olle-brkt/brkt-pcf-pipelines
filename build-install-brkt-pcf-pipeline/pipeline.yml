@@ -33,8 +33,9 @@ jobs:
     params:
       AWS_ACCESS_KEY_ID: {{aws_access_key_id}}
       AWS_SECRET_ACCESS_KEY: {{aws_secret_access_key}}
-      S3_BUCKET_PATCHED_PIPELINE: {{PATCHED_PIPELINE_S3_OUTPUT_BUCKET}}
       S3_BUCKET_TERRAFORM: {{S3_OUTPUT_BUCKET}}
+      S3_BUCKET_PATCHED_PIPELINE: {{PATCHED_PIPELINE_S3_OUTPUT_BUCKET}}
+      S3_BUCKET_ENCRYPTED_AMIS: {{ENCRYPTED_AMIS_S3_OUTPUT_BUCKET}}
       S3_ENDPOINT: {{S3_ENDPOINT}}
       S3_REGION: {{aws_region}}
 - name: patch-pipeline
