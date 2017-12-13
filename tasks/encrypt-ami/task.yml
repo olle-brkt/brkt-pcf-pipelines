@@ -9,7 +9,7 @@ inputs:
 - name: brkt-pcf-pipelines
 - name: encrypted-amis
 outputs:
-- name: encrypted-amis
+- name: results
 params:
   AWS_ACCESS_KEY_ID:
   AWS_SECRET_ACCESS_KEY:

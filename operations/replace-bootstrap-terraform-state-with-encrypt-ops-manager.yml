@@ -46,4 +46,4 @@
         METAVISOR_VERSION: {{mv_version}}
     - put: encrypted-amis
       params:
-        file: encrypted-amis/encrypted-amis-map.yml
+        file: results/encrypted-amis-map.yml

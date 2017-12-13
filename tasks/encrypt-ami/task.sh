@@ -41,7 +41,7 @@ with open('pre_encrypted_ami', 'w') as f:
         f.write(pre_enc_ami)
 EOF
 
-if [[ `cat pre_encrypted_ami` =~ ^ami- ]] ; then cat pre_encrypted_ami > ami/ami; exit 0; fi
+if [[ `cat pre_encrypted_ami` =~ ^ami- ]] ; then cp encrypted-amis/encrypted-amis-map.yml results/encrypted-amis-map.yml ; exit 0; fi
 
 echo "Installing brkt-cli"
 pip install brkt-cli 1>/dev/null
@@ -68,7 +68,7 @@ if ! [[ $output_ami =~ ^ami- ]]; then
     exit 1
 fi
 
-echo "$output_ami" > ami/ami
+touch results/encrypted-amis-map.yml
 
 # Update the encrypted-amis-map file to include new result
 python <<EOF
@@ -96,6 +96,6 @@ print "Currently encrypted amis: (in the format: Metavisor_version: [{source_ami
 for mv in data.items():
     print "%s: %s" % mv
 
-with open('encrypted-amis/encrypted-amis-map.yml', 'w') as f:
+with open('results/encrypted-amis-map.yml', 'w') as f:
     yaml.dump(data, f)
 EOF
