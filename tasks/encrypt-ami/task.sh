@@ -1,6 +1,9 @@
 #!/bin/bash
 set -eu
 
+echo "Installing yaml"
+pip install yaml 1>/dev/null
+
 ami=$(cat stock-ami/ami)
 
 touch pre_encrypted_ami

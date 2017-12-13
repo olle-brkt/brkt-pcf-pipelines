@@ -1,6 +1,9 @@
 #!/bin/bash
 set -eu
 
+echo "Installing yaml"
+pip install yaml 1>/dev/null
+
 touch encrypted_ami
 
 ami=$(grep $REGION pivnet-opsmgr/*.yml | cut -d' ' -f2)
