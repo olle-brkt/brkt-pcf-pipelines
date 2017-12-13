@@ -23,7 +23,8 @@ chmod +x fly
     # [X] Add the encrypted-amis s3 resource
     # [X] Include the brkt-pcf-pipelines and the encrypted-amis resources in aggregate step
     # [X] Replace the bootstrap-terraform-state job with the encrypt-ops-manager job
-    # [] Replace the find-ami task with custom find-ami task
+    # [X] Replace the find-ami task with custom find-ami task
+    # [X] Update pivnet-opsmgr-resource to be passed resource from prev. job
 
 cat pcf-pipelines/install-pcf/aws/pipeline.yml | ./yaml-patch \
     -o brkt-pcf-pipelines/operations/add-brkt-pcf-pipelines-resource.yml \
@@ -32,6 +33,7 @@ cat pcf-pipelines/install-pcf/aws/pipeline.yml | ./yaml-patch \
     -o brkt-pcf-pipelines/operations/include-encrypted-amis-resource.yml \
     -o brkt-pcf-pipelines/operations/replace-bootstrap-terraform-state-with-encrypt-ops-manager.yml \
     -o brkt-pcf-pipelines/operations/replace-find-ami-with-find-encrypted-ami.yml \
+    -o brkt-pcf-pipelines/operations/update-pivnet-opsmgr-resource.yml \
     > messy_pipeline.yml
 
 ./fly format-pipeline -c messy_pipeline.yml > generated-pipeline/pipeline.yml

@@ -1,0 +1,9 @@
+- op: replace
+  path: /jobs/name=create-infrastructure/plan/0/aggregate/get=pivnet-opsmgr
+  value:
+    get: pivnet-opsmgr
+    passed:
+    - encrypt-ops-manager
+    params:
+      globs:
+      - '*AWS.yml'
