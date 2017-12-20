@@ -42,6 +42,7 @@
         file: results/encrypted-amis-map.yml
     - task: upload-tile-and-stemcell
       file: brkt-pcf-pipelines/tasks/upload-product-and-stemcell/task.yml
+      attempts: 5
       params:
         IAAS: aws
         NO_PROXY: ""

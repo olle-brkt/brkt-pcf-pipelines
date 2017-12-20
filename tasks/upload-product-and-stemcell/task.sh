@@ -1,5 +1,4 @@
 #!/bin/bash
-
 set -eu
 
 if [[ -n "$NO_PROXY" ]]; then
@@ -27,6 +26,6 @@ om-linux -t https://$OPSMAN_DOMAIN_OR_IP_ADDRESS \
   -u "$OPS_MGR_USR" \
   -p "$OPS_MGR_PWD" \
   -k \
-  --request-timeout 4200 \
+  --request-timeout 3600 \
   upload-product \
   -p $FILE_PATH
