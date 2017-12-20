@@ -39,7 +39,7 @@ STEMCELL_VERSION=$(
 )
 echo "Stock stemcell version: $STEMCELL_VERSION"
 
-if [ -n "$STEMCELL_VERSION" ]; then
+if [ -z "$STEMCELL_VERSION" ]; then
   echo "Error: No stemcell version found! Exiting..."
   exit 1
 fi
