@@ -17,7 +17,7 @@ om-linux -t https://$OPSMAN_DOMAIN_OR_IP_ADDRESS \
     -p "$OPS_MGR_PWD" \
     -k \
     upload-stemcell \
-    -s $TGZ_PATH
+    -s $TGZ_PATH --force
 
 # Should the slug contain more than one product, pick only the first.
 FILE_PATH=$(find ./pivnet-product -name *.pivotal | sort | head -1)
