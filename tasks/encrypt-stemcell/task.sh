@@ -14,15 +14,13 @@ curl -L -s -k -o yaml "https://github.com/mikefarah/yaml/releases/download/1.13.
 chmod +x yaml
 
 
-mkdir -p stock-ami
-
-
-# Retrieving stock stemcell. Snippet taken from https://github.com/pivotal-cf/pcf-pipelines/blob/master/tasks/upload-product-and-stemcell/task.sh
+# Retrieving stock stemcell. Some snippets taken from https://github.com/pivotal-cf/pcf-pipelines/blob/master/tasks/upload-product-and-stemcell/task.sh
 
 if [[ -n "$NO_PROXY" ]]; then
   echo "$OM_IP $OPSMAN_DOMAIN_OR_IP_ADDRESS" >> /etc/hosts
 fi
 
+echo "Retrieving stock stemcell version packaged with product"
 STEMCELL_VERSION=$(
   cat ./pivnet-product/metadata.json |
   ./jq --raw-output \
@@ -39,61 +37,29 @@ STEMCELL_VERSION=$(
     | join(".")
     '
 )
+echo "Stock stemcell version: $STEMCELL_VERSION"
 
 if [ -n "$STEMCELL_VERSION" ]; then
-  diagnostic_report=$(
-    ./om \
-      --target https://$OPSMAN_DOMAIN_OR_IP_ADDRESS \
-      --client-id "${OPSMAN_CLIENT_ID}" \
-      --client-secret "${OPSMAN_CLIENT_SECRET}" \
-      --username "$OPS_MGR_USR" \
-      --password "$OPS_MGR_PWD" \
-      --skip-ssl-validation \
-      curl --silent --path "/api/v0/diagnostic_report"
-  )
-
-  stemcell=$(
-    echo "$diagnostic_report" |
-    ./jq \
-      --arg version "$STEMCELL_VERSION" \
-      --arg glob "$IAAS" \
-    '.stemcells[] | select(contains($version) and contains($glob))'
-  )
-
-  if [[ -z "$stemcell" ]]; then
-    echo "Downloading stemcell $STEMCELL_VERSION"
-
-    product_slug=$(
-      ./jq --raw-output \
-        '
-        if any(.Dependencies[]; select(.Release.Product.Name | contains("Stemcells for PCF (Windows)"))) then
-          "stemcells-windows-server"
-        else
-          "stemcells"
-        end
-        ' < pivnet-product/metadata.json
-    )
-
-    ./pivnet-cli login --api-token="$PIVNET_API_TOKEN"
-    ./pivnet-cli download-product-files -p "$product_slug" -r "$STEMCELL_VERSION" -g "*${IAAS}*" --accept-eula
-
-    SC_FILE_PATH=$(find ./ -name *.tgz)
-
-    if [ ! -f "$SC_FILE_PATH" ]; then
-      echo "Stemcell file not found!"
-      exit 1
-    fi
-
-    tar xf *.tgz
-    STEMCELL_AMI=$(grep "$REGION" stemcell.MF | awk '{print $2}')
-    echo "$STEMCELL_AMI" > stock-ami/ami
-  fi
+  echo "Error: No stemcell version found! Exiting..."
+  exit 1
 fi
+
+./pivnet-cli login --api-token="$PIVNET_API_TOKEN"
+./pivnet-cli download-product-files -p "$product_slug" -r "$STEMCELL_VERSION" -g "*${IAAS}*" --accept-eula
+
+SC_FILE_PATH=$(find ./ -name *.tgz)
+
+if [ ! -f "$SC_FILE_PATH" ]; then
+  echo "Stemcell file not found!"
+  exit 1
+fi
+
+tar xf *.tgz
+source_ami=$(grep "$REGION" stemcell.MF | awk '{print $2}')
 
 
 # Encrypting stemcell. Snippet taken from https://github.com/olle-brkt/brkt-pcf-pipelines/blob/master/tasks/encrypt-ami/task.sh
 
-source_ami=$(cat stock-ami/ami)
 key="$METAVISOR_VERSION.$source_ami"
 source_file=encrypted-amis/encrypted-amis-map.yml
 output_file=results/encrypted-amis-map.yml
