@@ -1,0 +1,54 @@
+- op: replace
+  path: /jobs/name=upload-ert
+  value:
+    name: encrypt-stemcell-and-upload-ert
+    serial_groups:
+    - opsman
+    plan:
+    - aggregate:
+      - get: pcf-pipelines
+      - get: pivnet-product
+        resource: pivnet-elastic-runtime
+        params:
+          globs:
+          - cf*.pivotal
+      - get: terraform-state
+        passed:
+        - deploy-director
+        trigger: true
+      - get: brkt-pcf-pipelines
+      - get: encrypted-amis
+    - task: encrypt-stemcell
+      file: brkt-pcf-pipelines/tasks/encrypt-stemcell/task.yml
+      params:
+        IAAS: aws
+        NO_PROXY: ""
+        OM_IP: ""
+        OPS_MGR_PWD: {{opsman_admin_password}}
+        OPS_MGR_USR: {{opsman_admin_username}}
+        OPSMAN_CLIENT_ID: {{opsman_client_id}}
+        OPSMAN_CLIENT_SECRET: {{opsman_client_secret}}
+        OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+        PIVNET_API_TOKEN: {{pivnet_token}}
+        AWS_ACCESS_KEY_ID: {{aws_access_key_id}}
+        AWS_SECRET_ACCESS_KEY: {{aws_secret_access_key}}
+        REGION: {{aws_region}}
+        SERVICE_DOMAIN: {{service_domain}}
+        EMAIL: {{brkt_email}}
+        PASSWORD: {{brkt_password}}
+        METAVISOR_VERSION: {{mv_version}}
+    - task: upload-tile-and-stemcell
+      file: brkt-pcf-pipelines/tasks/upload-product-and-stemcell/task.yml
+      params:
+        IAAS: aws
+        NO_PROXY: ""
+        OM_IP: ""
+        OPS_MGR_PWD: {{opsman_admin_password}}
+        OPS_MGR_USR: {{opsman_admin_username}}
+        OPSMAN_CLIENT_ID: {{opsman_client_id}}
+        OPSMAN_CLIENT_SECRET: {{opsman_client_secret}}
+        OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+        PIVNET_API_TOKEN: {{pivnet_token}}
+    - put: encrypted-amis
+      params:
+        file: results/encrypted-amis-map.yml
