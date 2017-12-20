@@ -127,12 +127,12 @@ echo "Results in \"$output_file\":"
 # Repackaging stemcell
 encrypted_ami=$(./yaml read -- $output_file \"$key\")
 echo "Repackaging stemcell - inserting new encrypted stemcell $encrypted_ami into stemcell.MF"
-sed -ri 's/'"$REGION"': [a-z]{3}-[a-z0-9]{8}/'"$REGION"': '"$encrypted_ami"'/' stemcell.MF
+./yaml w -i -- stemcell.MF cloud_properties.ami.$REGION $encrypted_ami
 echo "stemcell.MF:"
 cat stemcell.MF
 
 TGZ_NAME=$(find ./ -name *.tgz)
-rm -rf $TGZ_NAME
+rm -f $TGZ_NAME
 echo "Running: tar cvfz $TGZ_NAME dev_tools_file_list.txt image stemcell.MF stemcell_dpkg_l.txt"
 tar cfz $TGZ_NAME dev_tools_file_list.txt image stemcell.MF stemcell_dpkg_l.txt
-cp $TGZ_NAME stemcell/stemcell.tgz
+cp $TGZ_NAME stemcell/

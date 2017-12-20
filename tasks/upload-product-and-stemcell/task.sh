@@ -6,6 +6,10 @@ if [[ -n "$NO_PROXY" ]]; then
   echo "$OM_IP $OPSMAN_DOMAIN_OR_IP_ADDRESS" >> /etc/hosts
 fi
 
+cp stemcell/* ./
+
+TGZ_PATH=$(find ./ -name *.tgz)
+
 om-linux -t https://$OPSMAN_DOMAIN_OR_IP_ADDRESS \
     --client-id "${OPSMAN_CLIENT_ID}" \
     --client-secret "${OPSMAN_CLIENT_SECRET}" \
@@ -13,7 +17,7 @@ om-linux -t https://$OPSMAN_DOMAIN_OR_IP_ADDRESS \
     -p "$OPS_MGR_PWD" \
     -k \
     upload-stemcell \
-    -s stemcell/stemcell.tgz
+    -s $TGZ_PATH
 
 # Should the slug contain more than one product, pick only the first.
 FILE_PATH=$(find ./pivnet-product -name *.pivotal | sort | head -1)
