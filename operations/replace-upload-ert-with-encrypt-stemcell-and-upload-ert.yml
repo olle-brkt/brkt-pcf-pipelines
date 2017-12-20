@@ -43,6 +43,7 @@
     - task: upload-tile-and-stemcell
       file: brkt-pcf-pipelines/tasks/upload-product-and-stemcell/task.yml
       attempts: 5
+      timeout: 1h30m
       params:
         IAAS: aws
         NO_PROXY: ""
