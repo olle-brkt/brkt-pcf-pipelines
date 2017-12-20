@@ -127,7 +127,9 @@ echo "Results in \"$output_file\":"
 # Repackaging stemcell
 encrypted_ami=$(./yaml read -- $output_file \"$key\")
 echo "Repackaging stemcell - inserting new encrypted stemcell $encrypted_ami into stemcell.MF"
-sed -i "s/\b$REGION\b.*$/$REGION: $encrypted_ami/" stemcell.MF
+sed -ri 's/'"$REGION"': [a-z]{3}-[a-z0-9]{8}/'"$REGION"': '"$encrypted_ami"'/' stemcell.MF
+echo "stemcell.MF:"
+cat stemcell.MF
 
 TGZ_NAME=$(find ./ -name *.tgz)
 rm -rf $TGZ_NAME
