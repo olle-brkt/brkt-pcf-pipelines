@@ -127,11 +127,11 @@ echo "Results in \"$output_file\":"
 # Repackaging stemcell
 echo "Repackaging stemcell"
 encrypted_ami=$(./yaml read -- $output_file \"$key\")
+echo "Inserting new encrypted stemcell $encrypted_ami into stemcell.MF"
 sed -i "s/\b$REGION\b.*$/$REGION: $encrypted_ami/" stemcell.MF
 
 TGZ_NAME=$(find ./ -name *.tgz)
 rm -rf $TGZ_NAME
-tar cvfz $TGZ_NAME $(ls)
+echo "Running: tar cvfz $TGZ_NAME dev_tools_file_list.txt image stemcell.MF stemcell_dpkg_l.txt"
+tar cvfz $TGZ_NAME dev_tools_file_list.txt image stemcell.MF stemcell_dpkg_l.txt
 cp $TGZ_NAME stemcell/stemcell.tgz
-echo "ls stemcell:"
-ls stemcell
