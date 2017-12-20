@@ -1,0 +1,6 @@
+- op: replace
+  path: /jobs/name=deploy-ert/plan/0/aggregate/get=pivnet-opsmgr
+  value:
+    get: terraform-state
+    trigger: true
+    passed: [encrypt-stemcell-and-upload-ert]

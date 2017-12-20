@@ -15,6 +15,7 @@ chmod +x fly
     # [X] Replace the find-ami task with custom find-ami task
     # [X] Update pivnet-opsmgr-resource to be passed resource from prev. job
     # [X] Replace the upload-ert job with the encrypt-stemcell-and-upload-ert job
+    # [X] Update the terraform resource to be passed from the new job
 
 cat pcf-pipelines/install-pcf/aws/pipeline.yml | ./yaml-patch \
     -o brkt-pcf-pipelines/operations/add-brkt-pcf-pipelines-resource.yml \
@@ -25,6 +26,7 @@ cat pcf-pipelines/install-pcf/aws/pipeline.yml | ./yaml-patch \
     -o brkt-pcf-pipelines/operations/replace-find-ami-with-find-encrypted-ami.yml \
     -o brkt-pcf-pipelines/operations/update-pivnet-opsmgr-resource.yml \
     -o brkt-pcf-pipelines/operations/replace-upload-ert-with-encrypt-stemcell-and-upload-ert.yml \
+    -o brkt-pcf-pipelines/operations/update-terraform-state-resource.yml \
     > messy_pipeline.yml
 
 ./fly format-pipeline -c messy_pipeline.yml > generated-pipeline/pipeline.yml
