@@ -8,7 +8,7 @@ fi
 # echo om version for debugging
 echo "$(om-linux -v)"
 
-cp stemcell/* ./
+cp encrypted-stemcell/* ./
 
 TGZ_PATH=$(find ./ -name *.tgz)
 

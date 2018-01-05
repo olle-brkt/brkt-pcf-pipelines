@@ -6,7 +6,7 @@ image_resource:
 inputs:
   - name: pivnet-product
   - name: brkt-pcf-pipelines
-  - name: stemcell
+  - name: encrypted-stemcell
 params:
   OPSMAN_DOMAIN_OR_IP_ADDRESS:
   OPSMAN_CLIENT_ID:
