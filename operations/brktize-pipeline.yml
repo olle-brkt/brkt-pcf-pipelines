@@ -167,6 +167,7 @@
         OPSMAN_CLIENT_SECRET: {{opsman_client_secret}}
         OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
         PIVNET_API_TOKEN: {{pivnet_token}}
+        PEM: {{PEM}}
     - task: stage-tile
       file: pcf-pipelines/tasks/stage-product/task.yml
       params:

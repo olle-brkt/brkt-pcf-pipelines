@@ -17,5 +17,6 @@ params:
   NO_PROXY:
   OM_IP:
   IAAS:
+  PEM:
 run:
   path: brkt-pcf-pipelines/tasks/upload-product-and-stemcell/task.sh

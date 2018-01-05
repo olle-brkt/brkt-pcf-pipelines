@@ -16,7 +16,7 @@ encrypted_sc_path=$(find ./ -name *.tgz | sed "s|^\./||")
 echo "Uploading $encrypted_sc_path to $OPSMAN_DOMAIN_OR_IP_ADDRESS"
 
 echo "Getting director guid"
-director_guid="$(om-darwin -t https://$OPSMAN_DOMAIN_OR_IP_ADDRESS -k \
+director_guid="$(om-linux -t https://$OPSMAN_DOMAIN_OR_IP_ADDRESS -k \
     -c \"${OPSMAN_CLIENT_ID}\" \
     -s \"${OPSMAN_CLIENT_SECRET}\" \
     -u \"$OPS_MGR_USR\" \
@@ -24,7 +24,7 @@ director_guid="$(om-darwin -t https://$OPSMAN_DOMAIN_OR_IP_ADDRESS -k \
     | ./jq --raw-output '.[] | select(.type == "p-bosh") | .guid')"
 
 echo "Getting director IP"
-director_ip="$(om-darwin -t https://$OPSMAN_DOMAIN_OR_IP_ADDRESS -k \
+director_ip="$(om-linux -t https://$OPSMAN_DOMAIN_OR_IP_ADDRESS -k \
     -c \"${OPSMAN_CLIENT_ID}\" \
     -s \"${OPSMAN_CLIENT_SECRET}\" \
     -u \"$OPS_MGR_USR\" \
@@ -33,7 +33,7 @@ director_ip="$(om-darwin -t https://$OPSMAN_DOMAIN_OR_IP_ADDRESS -k \
     | ./jq --raw-output '.[] | .ips[0]')"
 
 echo "Getting UAA user credentials"
-login_password="$(om-darwin -t https://$OPSMAN_DOMAIN_OR_IP_ADDRESS -k \
+login_password="$(om-linux -t https://$OPSMAN_DOMAIN_OR_IP_ADDRESS -k \
     -c \"${OPSMAN_CLIENT_ID}\" \
     -s \"${OPSMAN_CLIENT_SECRET}\" \
     -u \"$OPS_MGR_USR\" \
@@ -42,7 +42,7 @@ login_password="$(om-darwin -t https://$OPSMAN_DOMAIN_OR_IP_ADDRESS -k \
     | ./jq '.credential.value.password')"
 
 echo "Getting UAA login client credentials"
-client_secret="$(om-darwin -t https://$OPSMAN_DOMAIN_OR_IP_ADDRESS -k \
+client_secret="$(om-linux -t https://$OPSMAN_DOMAIN_OR_IP_ADDRESS -k \
     -c \"${OPSMAN_CLIENT_ID}\" \
     -s \"${OPSMAN_CLIENT_SECRET}\" \
     -u \"$OPS_MGR_USR\" \
@@ -57,6 +57,9 @@ uaac client add stemcell_uploader --scope uaa.none --authorized_grant_types clie
 uaac token client get stemcell_uploader -s $client_secret
 BOSH_CLIENT=stemcell_uploader BOSH_CLIENT_SECRET=$client_secret bosh2 -e $director_ip --ca-cert /var/tempest/workspaces/default/root_ca_certificate upload-stemcell encrypted_stemcell.tgz --fix
 EOF
+
+echo "$PEM" > ssh-key
+ssh-add ssh-key
 
 echo "scp:ing the encrypted stemcell to $OPSMAN_DOMAIN_OR_IP_ADDRESS"
 scp -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -oLogLevel=error $encrypted_sc_path ubuntu@$OPSMAN_DOMAIN_OR_IP_ADDRESS:encrypted_stemcell.tgz
