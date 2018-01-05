@@ -9,12 +9,8 @@ output_file=encrypted-stemcell/encrypted_stemcell.tgz
 curl -L -s -k -o yaml "https://github.com/mikefarah/yaml/releases/download/1.13.1/yaml_linux_amd64"
 chmod +x yaml
 
-pushd stemcell
-sc_file_path=$(find ./ -name *.tgz)
-cp $sc_file_path ../
-popd
-
-sc_file_path=$(find ./ -maxdepth 0 -name *.tgz)
+cp stemcell/*.tgz ./
+sc_file_path=$(find ./ -name *.tgz | head -n 1)
 echo "Extracting $sc_file_path"
 tar xf $sc_file_path
 
