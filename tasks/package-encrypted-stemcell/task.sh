@@ -19,6 +19,7 @@ echo "Repackaging stemcell - inserting new encrypted stemcell $encrypted_ami int
 ./yaml w -i -- stemcell.MF cloud_properties.ami.$REGION $encrypted_ami
 echo "stemcell.MF:"
 cat stemcell.MF
+echo ""
 
 rm -f $sc_file_path
 echo "Running: tar cfz $sc_file_path dev_tools_file_list.txt image stemcell.MF stemcell_dpkg_l.txt"
