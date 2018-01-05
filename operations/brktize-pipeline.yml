@@ -158,7 +158,6 @@
       attempts: 5
       timeout: 1h
       params:
-        IAAS: aws
         NO_PROXY: ""
         OM_IP: ""
         OPS_MGR_PWD: {{opsman_admin_password}}
