@@ -11,7 +11,7 @@ chmod +x yaml
 
 pushd stemcell
 sc_file_path=$(find ./ -name *.tgz)
-cp sc_file_path ../
+cp $sc_file_path ../
 popd
 
 sc_file_path=$(find ./ -name *.tgz)
