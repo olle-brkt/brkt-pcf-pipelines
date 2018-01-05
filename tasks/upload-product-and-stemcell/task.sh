@@ -9,11 +9,11 @@ if [[ -n "$NO_PROXY" ]]; then
 fi
 
 # echo om version for debugging
-echo "$(om-linux -v)"
+echo "om-linux version: $(om-linux -v)"
 
 mv encrypted-stemcell/*.tgz ./
 encrypted_sc_path=$(find ./ -name *.tgz | sed "s|^\./||")
-echo "Uploading $encrypted_sc_path to $OPSMAN_DOMAIN_OR_IP_ADDRESS"
+echo -e "Uploading $encrypted_sc_path to $OPSMAN_DOMAIN_OR_IP_ADDRESS\n\n"
 
 echo -e "Getting director guid\n"
 director_guid="$(om-linux -t https://$OPSMAN_DOMAIN_OR_IP_ADDRESS -k \
@@ -44,10 +44,10 @@ client_secret="$(om-linux -t https://$OPSMAN_DOMAIN_OR_IP_ADDRESS -k \
     | ./jq '.credential.value.password')"
 
 cat << EOF > /tmp/upload_stemcell.sh
-uaac --skip-ssl-validation target https://$director_ip:8443
-uaac token owner get login admin -s $client_secret -p $login_password
-uaac client add stemcell_uploader --scope uaa.none --authorized_grant_types client_credentials --authorities bosh.admin -s $client_secret
-uaac token client get stemcell_uploader -s $client_secret
+BUNDLE_GEMFILE=/home/tempest-web/tempest/web/vendor/uaac/Gemfile bundle exec uaac --skip-ssl-validation target https://$director_ip:8443
+BUNDLE_GEMFILE=/home/tempest-web/tempest/web/vendor/uaac/Gemfile bundle exec uaac token owner get login admin -s $client_secret -p $login_password
+BUNDLE_GEMFILE=/home/tempest-web/tempest/web/vendor/uaac/Gemfile bundle exec uaac client add stemcell_uploader --scope uaa.none --authorized_grant_types client_credentials --authorities bosh.admin -s $client_secret
+BUNDLE_GEMFILE=/home/tempest-web/tempest/web/vendor/uaac/Gemfile bundle exec uaac token client get stemcell_uploader -s $client_secret
 BOSH_CLIENT=stemcell_uploader BOSH_CLIENT_SECRET=$client_secret bosh2 -e $director_ip --ca-cert /var/tempest/workspaces/default/root_ca_certificate upload-stemcell encrypted_stemcell.tgz --fix
 EOF
 
