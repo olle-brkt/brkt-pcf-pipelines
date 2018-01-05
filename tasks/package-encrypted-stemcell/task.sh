@@ -14,7 +14,7 @@ sc_file_path=$(find ./ -name *.tgz)
 cp $sc_file_path ../
 popd
 
-sc_file_path=$(find ./ -name *.tgz)
+sc_file_path=$(find ./ -name *.tgz -maxdepth 0)
 echo "Extracting $sc_file_path"
 tar xf $sc_file_path
 
