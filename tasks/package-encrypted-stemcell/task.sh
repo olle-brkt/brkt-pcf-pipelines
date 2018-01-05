@@ -21,7 +21,7 @@ echo -e "\nstemcell.MF:\n"
 cat stemcell.MF
 echo -e "\n"
 
-echo "Running: tar cfz finished_stemcell.tgz dev_tools_file_list.txt image stemcell.MF stemcell_dpkg_l.txt"
+echo "Running: tar cfz $sc_file_path dev_tools_file_list.txt image stemcell.MF stemcell_dpkg_l.txt"
 tar cfz $sc_file_path dev_tools_file_list.txt image stemcell.MF stemcell_dpkg_l.txt
 
 # encrypted stemcell to encrypted-stemcell/$sc_file_path
