@@ -10,7 +10,8 @@ echo "$(om-linux -v)"
 
 cp encrypted-stemcell/* ./
 
-TGZ_PATH=$(find ./ -name *.tgz)
+encrypted_sc_path=$(find ./ -name *.tgz)
+echo "Uploading $encrypted_sc_path"
 
 om-linux -t https://$OPSMAN_DOMAIN_OR_IP_ADDRESS \
     --client-id "${OPSMAN_CLIENT_ID}" \
@@ -19,7 +20,7 @@ om-linux -t https://$OPSMAN_DOMAIN_OR_IP_ADDRESS \
     -p "$OPS_MGR_PWD" \
     -k \
     upload-stemcell --force \
-    -s $TGZ_PATH
+    -s $encrypted_sc_path
 
 # Should the slug contain more than one product, pick only the first.
 FILE_PATH=$(find ./pivnet-product -name *.pivotal | sort | head -1)
