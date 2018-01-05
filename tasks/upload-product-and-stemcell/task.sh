@@ -8,7 +8,7 @@ fi
 # echo om version for debugging
 echo "$(om-linux -v)"
 
-cp encrypted-stemcell/* ./
+mv encrypted-stemcell/* ./
 
 encrypted_sc_path=$(find ./ -name *.tgz)
 echo "Uploading $encrypted_sc_path"
