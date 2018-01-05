@@ -1,6 +1,0 @@
-- op: add
-  path: /jobs/name=create-infrastructure/plan/0/aggregate/-
-  value:
-    get: encrypted-amis
-    passed:
-    - encrypt-ops-manager

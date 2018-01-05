@@ -1,9 +1,0 @@
-- op: add
-  path: /resources/-
-  value:
-    name: brkt-pcf-pipelines
-    type: git
-    source:
-      branch: master
-      private_key: {{git_private_key}}
-      uri: git@github.com:olle-brkt/brkt-pcf-pipelines.git

@@ -1,8 +1,0 @@
-- op: replace
-  path: /jobs/name=create-infrastructure/plan/task=find-ami
-  value:
-    task: find-encrypted-ami
-    file: brkt-pcf-pipelines/tasks/find-encrypted-ami/task.yml
-    params:
-      REGION: {{aws_region}}
-      METAVISOR_VERSION: {{mv_version}}
