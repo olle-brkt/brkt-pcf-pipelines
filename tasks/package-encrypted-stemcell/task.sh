@@ -10,7 +10,7 @@ curl -L -s -k -o yaml "https://github.com/mikefarah/yaml/releases/download/1.13.
 chmod +x yaml
 
 mv stemcell/*.tgz ./
-sc_file_path=$(find ./ -name *.tgz)
+sc_file_path=$(find ./ -name *.tgz | sed "s|^\./||")
 echo "Extracting $sc_file_path"
 tar xf $sc_file_path
 rm -f $sc_file_path

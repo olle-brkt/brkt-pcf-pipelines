@@ -10,7 +10,7 @@ echo "$(om-linux -v)"
 
 mv encrypted-stemcell/* ./
 
-encrypted_sc_path=$(find ./ -name *.tgz)
+encrypted_sc_path=$(find ./ -name *.tgz | sed "s|^\./||")
 echo "Uploading $encrypted_sc_path"
 
 om-linux -t https://$OPSMAN_DOMAIN_OR_IP_ADDRESS \
