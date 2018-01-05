@@ -5,6 +5,9 @@ if [[ -n "$NO_PROXY" ]]; then
   echo "$OM_IP $OPSMAN_DOMAIN_OR_IP_ADDRESS" >> /etc/hosts
 fi
 
+# echo om version for debugging
+echo "$(om-linux -v)"
+
 cp stemcell/* ./
 
 TGZ_PATH=$(find ./ -name *.tgz)

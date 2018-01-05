@@ -88,6 +88,7 @@
         EMAIL: {{brkt_email}}
         PASSWORD: {{brkt_password}}
         METAVISOR_VERSION: {{mv_version}}
+        ROLE: opsman
     - put: encrypted-amis
       params:
         file: results/encrypted-amis-map.yml
@@ -127,18 +128,15 @@
         trigger: true
       - get: brkt-pcf-pipelines
       - get: encrypted-amis
-    - task: encrypt-stemcell
-      file: brkt-pcf-pipelines/tasks/encrypt-stemcell/task.yml
+    - task: find-stock-stemcell-ami
+      file: brkt-pcf-pipelines/tasks/find-stock-stemcell-ami/task.yml
       params:
         IAAS: aws
-        NO_PROXY: ""
-        OM_IP: ""
-        OPS_MGR_PWD: {{opsman_admin_password}}
-        OPS_MGR_USR: {{opsman_admin_username}}
-        OPSMAN_CLIENT_ID: {{opsman_client_id}}
-        OPSMAN_CLIENT_SECRET: {{opsman_client_secret}}
-        OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+        REGION: {{aws_region}}
         PIVNET_API_TOKEN: {{pivnet_token}}
+    - task: encrypt-ami
+      file: brkt-pcf-pipelines/tasks/encrypt-ami/task.yml
+      params:
         AWS_ACCESS_KEY_ID: {{aws_access_key_id}}
         AWS_SECRET_ACCESS_KEY: {{aws_secret_access_key}}
         REGION: {{aws_region}}
@@ -146,9 +144,15 @@
         EMAIL: {{brkt_email}}
         PASSWORD: {{brkt_password}}
         METAVISOR_VERSION: {{mv_version}}
+        ROLE: stemcell
     - put: encrypted-amis
       params:
         file: results/encrypted-amis-map.yml
+    - task: package-encrypted-stemcell
+      file: brkt-pcf-pipelines/tasks/package-encrypted-stemcell/task.yml
+      params:
+        REGION: {{aws_region}}
+        METAVISOR_VERSION: {{mv_version}}
     - task: upload-product-and-stemcell
       file: brkt-pcf-pipelines/tasks/upload-product-and-stemcell/task.yml
       attempts: 5

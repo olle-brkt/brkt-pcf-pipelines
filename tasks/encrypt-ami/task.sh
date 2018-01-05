@@ -12,16 +12,16 @@ chmod +x yaml
 echo "All encrypted AMI's in the format \"Metavisor_version.source_ami: encrypted_ami\""
 ./yaml read -- $source_file
 
-echo "Searching for \"$key\":"
+echo "Searching for \"$key\"..."
 encrypted_ami=$(./yaml read -- $source_file \"$key\")
 
 if ! [ "$encrypted_ami" == "null" ]; then
     # Reusing previous encryption results to save time
     echo "Source AMI $source_ami encrypted by $METAVISOR_VERSION found: $encrypted_ami"
-    echo "Copying over \"$source_file\" to \"$output_file\""
-    cp $source_file $output_file
 else
     # Can't reuse previous encryption results, encrypting source_ami
+    echo "Not found"
+    echo ""
     echo "Installing brkt-cli"
     pip install brkt-cli 1>/dev/null
 
@@ -32,7 +32,7 @@ else
     export BRKT_API_TOKEN
 
     echo "Encrypting stemcell image $source_ami"
-    cmd="brkt aws encrypt --service-domain $SERVICE_DOMAIN --region $REGION --metavisor-version ${METAVISOR_VERSION} --no-single-disk --brkt-tag app=pcf --brkt-tag role=opsmanager $source_ami"
+    cmd="brkt aws encrypt --service-domain $SERVICE_DOMAIN --region $REGION --metavisor-version $METAVISOR_VERSION --no-single-disk --brkt-tag app=pcf --brkt-tag role=$ROLE $source_ami"
     echo "Running command: $cmd"
     $cmd | tee encrypt.log &
 
@@ -48,9 +48,9 @@ else
     echo "Source AMI $source_ami encrypted by $METAVISOR_VERSION: $encrypted_ami"
     echo "Adding \"$key: $encrypted_ami\" to \"$source_file\""
     ./yaml write -i -- $source_file \"$key\" $encrypted_ami
-    echo "Copying over \"$source_file\" to \"$output_file\""
-    cp $source_file $output_file
 fi
 
+echo "Copying over \"$source_file\" to \"$output_file\""
+cp $source_file $output_file
 echo "Results in \"$output_file\":"
 ./yaml read -- $output_file

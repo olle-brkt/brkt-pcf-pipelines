@@ -1,0 +1,16 @@
+platform: linux
+image_resource:
+  type: docker-image
+  source:
+    repository: czero/rootfs
+inputs:
+- name: stock-ami
+- name: stemcell
+- name: results
+outputs:
+- name: encrypted-stemcell
+params:
+  REGION:
+  METAVISOR_VERSION:
+run:
+  path: brkt-pcf-pipelines/tasks/package-encrypted-stemcell/task.sh
