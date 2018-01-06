@@ -40,6 +40,18 @@
     get: encrypted-amis
 
 ###############################################################################
+#### Replace the find-ami job with a find-encrypted-ami job ###################
+###############################################################################
+- op: replace
+  path: /jobs/name=create-infrastructure/plan/task=find-ami
+  value:
+    task: find-encrypted-ami
+    file: brkt-pcf-pipelines/tasks/find-encrypted-ami/task.yml
+    params:
+      REGION: {{aws_region}}
+      METAVISOR_VERSION: {{mv_version}}
+
+###############################################################################
 #### Replace the bootstrap-terraform-state job with a opsman encryption job ###
 ###############################################################################
 - op: replace
@@ -94,16 +106,73 @@
         file: results/encrypted-amis-map.yml
 
 ###############################################################################
-#### Replace the find-ami job with a find-encrypted-ami job ###################
+#### Replace the deploy-director job with a encrypt-director-stemcell-and-deploy-director job
 ###############################################################################
 - op: replace
-  path: /jobs/name=create-infrastructure/plan/task=find-ami
+  path: /jobs/name=deploy-director
   value:
-    task: find-encrypted-ami
-    file: brkt-pcf-pipelines/tasks/find-encrypted-ami/task.yml
-    params:
-      REGION: {{aws_region}}
-      METAVISOR_VERSION: {{mv_version}}
+    name: encrypt-director-stemcell-and-deploy-director
+    serial_groups:
+    - opsman
+    plan:
+    - aggregate:
+      - get: pcf-pipelines
+      - get: terraform-state
+        trigger: true
+        passed:
+         - configure-director
+      - get: brkt-pcf-pipelines
+      - get: encrypted-amis
+    - task: find-stock-director-stemcell-ami
+      file: brkt-pcf-pipelines/tasks/find-stock-director-stemcell-ami/task.yml
+      params:
+        NO_PROXY: ""
+        OM_IP: ""
+        OPS_MGR_PWD: {{opsman_admin_password}}
+        OPS_MGR_USR: {{opsman_admin_username}}
+        OPSMAN_CLIENT_ID: {{opsman_client_id}}
+        OPSMAN_CLIENT_SECRET: {{opsman_client_secret}}
+        OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+        PEM: {{PEM}}
+    - task: encrypt-ami
+      file: brkt-pcf-pipelines/tasks/encrypt-ami/task.yml
+      params:
+        AWS_ACCESS_KEY_ID: {{aws_access_key_id}}
+        AWS_SECRET_ACCESS_KEY: {{aws_secret_access_key}}
+        REGION: {{aws_region}}
+        SERVICE_DOMAIN: {{service_domain}}
+        EMAIL: {{brkt_email}}
+        PASSWORD: {{brkt_password}}
+        METAVISOR_VERSION: {{mv_version}}
+        ROLE: stemcell
+    - put: encrypted-amis
+      params:
+        file: results/encrypted-amis-map.yml
+    - task: package-encrypted-director-stemcell
+      file: brkt-pcf-pipelines/tasks/package-encrypted-stemcell/task.yml
+      params:
+        REGION: {{aws_region}}
+        METAVISOR_VERSION: {{mv_version}}
+    - task: upload-director-stemcell
+      file: brkt-pcf-pipelines/tasks/upload-director-stemcell/task.yml
+      params:
+        NO_PROXY: ""
+        OM_IP: ""
+        OPS_MGR_PWD: {{opsman_admin_password}}
+        OPS_MGR_USR: {{opsman_admin_username}}
+        OPSMAN_CLIENT_ID: {{opsman_client_id}}
+        OPSMAN_CLIENT_SECRET: {{opsman_client_secret}}
+        OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+        PEM: {{PEM}}
+    - task: deploy-director
+      file: pcf-pipelines/tasks/apply-changes/task.yml
+      params:
+        OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+        OPSMAN_CLIENT_ID: {{opsman_client_id}}
+        OPSMAN_CLIENT_SECRET: {{opsman_client_secret}}
+        OPSMAN_USERNAME: {{opsman_admin_username}}
+        OPSMAN_PASSWORD: {{opsman_admin_password}}
+
 
 ###############################################################################
 #### Replace the upload-ert job with a encrypt-stemcell-and-upload-ert job ####
