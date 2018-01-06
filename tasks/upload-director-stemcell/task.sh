@@ -18,4 +18,4 @@ echo "scp:ing the encrypted stemcell to $OPSMAN_DOMAIN_OR_IP_ADDRESS"
 scp -i ssh-key -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -oLogLevel=error $sc_file_path ubuntu@$OPSMAN_DOMAIN_OR_IP_ADDRESS:/tmp/encrypted_stemcells/
 
 echo "moving the stock stemcell.tgz from /var/tempest/stemcells to /tmp/encrypted_stemcells/..."
-ssh -i ssh-key -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -oLogLevel=error ubuntu@$OPSMAN_DOMAIN_OR_IP_ADDRESS 'mv /tmp/encrypted_stemcells/*.tgz /var/tempest/stemcells/'
+ssh -i ssh-key -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -oLogLevel=error ubuntu@$OPSMAN_DOMAIN_OR_IP_ADDRESS 'sudo mv /tmp/encrypted_stemcells/*.tgz /var/tempest/stemcells/'
