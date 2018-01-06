@@ -193,7 +193,7 @@
           - cf*.pivotal
       - get: terraform-state
         passed:
-        - deploy-director
+        - encrypt-director-stemcell-and-deploy-director
         trigger: true
       - get: brkt-pcf-pipelines
       - get: encrypted-amis
