@@ -63,7 +63,7 @@ scp -i ssh-key -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -oLogLe
 echo "running the script..."
 ssh -i ssh-key -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -oLogLevel=error ubuntu@$OPSMAN_DOMAIN_OR_IP_ADDRESS 'chmod +x upload_stemcell.sh; ./upload_stemcell.sh'
 
-echo "uploading stemcell"
+echo -e "\nuploading stemcell"
 # Should the slug contain more than one product, pick only the first.
 FILE_PATH=$(find ./pivnet-product -name *.pivotal | sort | head -1)
 om-linux -t https://$OPSMAN_DOMAIN_OR_IP_ADDRESS \
