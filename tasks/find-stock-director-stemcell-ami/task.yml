@@ -18,5 +18,6 @@ params:
   NO_PROXY:
   OM_IP:
   PEM:
+  REGION:
 run:
   path: brkt-pcf-pipelines/tasks/find-stock-director-stemcell-ami/task.sh
