@@ -3,7 +3,7 @@ set -eu
 
 echo "getting fly-cli..."
 
-curl -L -s -k -o fly "${ATC_EXTERNAL_URL}/api/v1/cli?arch=amd64&platform=linux"
+curl -L -k -o fly "${ATC_EXTERNAL_URL}/api/v1/cli?arch=amd64&platform=linux"
 chmod +x fly
 
 echo "patching pipeline..."
