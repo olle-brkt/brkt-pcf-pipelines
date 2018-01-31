@@ -47,7 +47,7 @@ if ! [[ $ami =~ ^ami- ]]; then
 fi
 echo "Wrapped ami: $ami"
 echo "Waiting for snapshot completion..."
-aws ec2 wait image-available --image-ids $ami
+aws ec2 wait --region $REGION image-available --image-ids $ami
 echo "Deleting instances..."
 aws ec2 terminate-instances --region $REGION --instance-ids $instance_id
 
