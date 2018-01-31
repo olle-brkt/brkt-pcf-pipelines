@@ -19,15 +19,16 @@ basic_auth_username: CHANGEME
 basic_auth_password: CHANGEME
 team_name: CHANGEME
 
-# This key must be a key with admin access
-aws_access_key_id: &aws_access_key_id CHANGEME
-aws_secret_access_key: &aws_secret_access_key CHANGEME
-aws_region: &aws_region CHANGEME
-s3_endpoint: &s3_endpoint CHANGEME
-# For terraform state file (http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region)
-terraform_state_s3_bucket: &terraform_state_s3_bucket CHANGEME
+# these entries must match the ones used in the install-brkt-pcf-params below!
+# they are duplicated due to a concourse limitation :(
+aws_access_key_id: ((aws_access_key_id))
+aws_secret_access_key: ((aws_secret_access_key))
+aws_region: us-east-1
+s3_endpoint: https://s3.amazonaws.com
+terraform_state_s3_bucket: CHANGEME
+
 # bucket in the same region as all the other AWS resources
-patched_pipeline_s3_bucket: pcf-perf-patched-pipeline
+patched_pipeline_s3_bucket: CHANGEME
 
 
   pipeline_params: |
@@ -50,8 +51,9 @@ patched_pipeline_s3_bucket: pcf-perf-patched-pipeline
   # AMI to use for nat box
   amis_nat: ami-303b1458
 
-  aws_access_key_id: *aws_access_key_id
-  aws_secret_access_key: *aws_secret_access_key
+  # This key must be a key with admin access
+  aws_access_key_id: ((aws_access_key_id))
+  aws_secret_access_key: ((aws_secret_access_key))
 
   aws_az1: us-east-1a
   aws_az2: us-east-1b
@@ -63,7 +65,7 @@ patched_pipeline_s3_bucket: pcf-perf-patched-pipeline
   # Upload PEM to AWS as the below key pair name
   aws_key_name: CHANGEME
 
-  aws_region: *aws_region
+  aws_region: us-east-1
 
   # Ciphers
   # An ordered, colon-delimited list of Golang supported TLS cipher suites in OpenSSL format.
@@ -211,8 +213,9 @@ patched_pipeline_s3_bucket: pcf-perf-patched-pipeline
   # Support for the X-Forwarded-Client-Cert header. Possible values: (load_balancer|ha_proxy|router)
   routing_tls_termination: load_balancer
 
-  S3_ENDPOINT: *s3_endpoint
-  S3_OUTPUT_BUCKET: *terraform_state_s3_bucket
+  S3_ENDPOINT: https://s3.amazonaws.com
+  # For terraform state file (http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region)
+  S3_OUTPUT_BUCKET: CHANGEME
 
   # Setting appropriate Application Security Groups is critical for a secure
   # deployment. Change the value of the param below to "X" to acknowledge that
