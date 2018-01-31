@@ -15,12 +15,12 @@ resources:
 - name: patched-pipeline
   type: s3
   source:
-    access_key_id: {{pipeline_params.aws_access_key_id}}
-    bucket: {{pipeline_params.patched_pipeline_s3_bucket}}
-    disable_ssl: false
-    endpoint: {{S3_ENDPOINT}}
-    region_name: {{aws_region}}
+    access_key_id: {{aws_access_key_id}}
     secret_access_key: {{aws_secret_access_key}}
+    bucket: {{patched_pipeline_s3_bucket}}
+    disable_ssl: false
+    endpoint: {{s3_endpoint}}
+    region_name: {{aws_region}}
     versioned_file: pipeline.yml
 resource_types: []
 jobs:
@@ -33,10 +33,9 @@ jobs:
     params:
       AWS_ACCESS_KEY_ID: {{aws_access_key_id}}
       AWS_SECRET_ACCESS_KEY: {{aws_secret_access_key}}
-      S3_BUCKET_TERRAFORM: {{S3_OUTPUT_BUCKET}}
-      S3_BUCKET_PATCHED_PIPELINE: {{PATCHED_PIPELINE_S3_OUTPUT_BUCKET}}
-      S3_BUCKET_ENCRYPTED_AMIS: {{ENCRYPTED_AMIS_S3_OUTPUT_BUCKET}}
-      S3_ENDPOINT: {{S3_ENDPOINT}}
+      S3_BUCKET_TERRAFORM: {{terraform_state_s3_bucket}}
+      S3_BUCKET_PATCHED_PIPELINE: {{patched_pipeline_s3_bucket}}
+      S3_ENDPOINT: {{s3_endpoint}}
       S3_REGION: {{aws_region}}
 - name: patch-pipeline
   plan:

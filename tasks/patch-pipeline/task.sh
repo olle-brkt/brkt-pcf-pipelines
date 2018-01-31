@@ -10,7 +10,7 @@ chmod +x fly
 echo "patching pipeline..."
 
 cat pcf-pipelines/install-pcf/aws/pipeline.yml | yaml-patch \
-    -o brkt-pcf-pipelines/operations/brktize-pipeline.yml \
+    -o brkt-pcf-pipelines/operations/brktize.yml \
     > messy_pipeline.yml
 
 echo "formatting pipeline..."
