@@ -68,6 +68,21 @@
         METAVISOR_VERSION: {{mv_version}}
 
 ###############################################################################
+#### Add the brkt-pcf-pipelines resource to the pipeline ######################
+###############################################################################
+- op: add
+  path: /jobs/name=create-infrastructure/plan/-
+  value:
+    task: bump-opsmanager-disk-size
+    file: brkt-pcf-pipelines/tasks/bump-opsmanager-disk-size/task.yml
+    params:
+      AWS_ACCESS_KEY_ID: {{aws_access_key_id}}
+      AWS_SECRET_ACCESS_KEY: {{aws_secret_access_key}}
+      REGION: {{aws_region}}
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+      PEM: {{PEM}}
+
+###############################################################################
 #### Update the deploy-director job with brktization tasks ####################
 ###############################################################################
 - op: replace
