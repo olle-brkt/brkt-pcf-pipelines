@@ -40,13 +40,15 @@ wait
 instance_id=$(tail -1 wrap.log | awk '{print $1}')
 sleep 20
 
-instance_ami="$(aws ec2 create-image --region $REGION --instance-id $instance_id --name "$source_ami wrapped by $METAVISOR_VERSION $(python -c 'import time; print time.strftime(" -- %H-%M-%S")')" | ./jq -r ".ImageId")"
-if ! [[ $instance_ami =~ ^ami- ]]; then
+ami="$(aws ec2 create-image --region $REGION --instance-id $instance_id --name "$source_ami wrapped by $METAVISOR_VERSION $(python -c 'import time; print time.strftime(" -- %H-%M-%S")')" | ./jq -r ".ImageId")"
+if ! [[ $ami =~ ^ami- ]]; then
     echo "Wrapping failed in region $REGION"
     exit 1
 fi
-echo "Wrapped ami: $instance_ami"
+echo "Wrapped ami: $ami"
+echo "Waiting for snapshot completion..."
+aws ec2 wait image-available --image-ids $ami
 echo "Deleting instances..."
 aws ec2 terminate-instances --region $REGION --instance-ids $instance_id
 
-echo "$instance_ami" > $brktized_ami_file
+echo "$ami" > $brktized_ami_file

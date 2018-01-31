@@ -37,20 +37,20 @@ patched_pipeline_s3_bucket: CHANGEME
   ###############################################################################
   # Two sections:
 
-  # brkt params: ################################################################
+  #### brkt params: ################################################################
   # FQDN to the service-domain, for example stage.mgmt.brkt.com
   service_domain: CHANGEME
   # email to your brkt account
   brkt_email: CHANGEME
   # password for the account above
   brkt_password: CHANGEME
-  # in the format: metavisor-<major>-<minor>-<patch> example: metavisor-2-15-60
+  # in the format: metavisor-<major>-<minor>-<patch>-<uuid> example: metavisor-2-18-48-g03c35705e
   mv_version: CHANGEME
   # arguments given to the ops-manager and stemcell brktization operations
   ops_manager_wrap_args: --brkt-tag role=opsman --brkt-tag app=pcf
   stemcell_wrap_args: --brkt-tag role=stemcell --brkt-tag app=pcf
 
-  # pcf params (same as in pcf-pipelines, except for keys...): ##################
+  #### pcf params (same as in pcf-pipelines, except for keys...): ##################
   # AMI to use for nat box
   amis_nat: ami-303b1458
 
