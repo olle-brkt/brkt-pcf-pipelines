@@ -38,16 +38,20 @@ $cmd | tee wrap.log &
 # Wait for all background tasks to complete
 wait
 instance_id=$(tail -1 wrap.log | awk '{print $1}')
-sleep 20
+
+echo "Instance ID: $instance_id"
+echo "Waiting for status checks..."
+aws ec2 wait --region $REGION instance-status-ok --instance-ids $instance_id
 
 ami="$(aws ec2 create-image --region $REGION --instance-id $instance_id --name "$source_ami wrapped by $METAVISOR_VERSION $(python -c 'import time; print time.strftime(" -- %H-%M-%S")')" | ./jq -r ".ImageId")"
 if ! [[ $ami =~ ^ami- ]]; then
-    echo "Wrapping failed in region $REGION"
+    echo "Wrapping failed!"
     exit 1
 fi
 echo "Wrapped ami: $ami"
-echo "Waiting for snapshot completion..."
+echo "Waiting for AMI creation..."
 aws ec2 wait --region $REGION image-available --image-ids $ami
+
 echo "Deleting instances..."
 aws ec2 terminate-instances --region $REGION --instance-ids $instance_id
 
