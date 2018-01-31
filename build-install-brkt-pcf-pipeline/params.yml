@@ -46,6 +46,9 @@ patched_pipeline_s3_bucket: CHANGEME
   brkt_password: CHANGEME
   # in the format: metavisor-<major>-<minor>-<patch> example: metavisor-2-15-60
   mv_version: CHANGEME
+  # arguments given to the ops-manager and stemcell brktization operations
+  ops_manager_wrap_args: --brkt-tag role=opsman --brkt-tag app=pcf
+  stemcell_wrap_args: --brkt-tag role=stemcell --brkt-tag app=pcf
 
   # pcf params (same as in pcf-pipelines, except for keys...): ##################
   # AMI to use for nat box
