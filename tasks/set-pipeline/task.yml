@@ -4,18 +4,17 @@ image_resource:
   source:
     repository: czero/rootfs
 inputs:
-- name: pcf-pipelines
-- name: brkt-pcf-pipelines
 - name: patched-pipeline
+- name: brkt-pcf-pipelines
 params:
-  PIPELINE:
-  PIPELINE_PATH:
-  PIPELINE_PARAMS:
   PEM:
-  GIT_PRIVATE_KEY:
-  ATC_EXTERNAL_URL:
-  ATC_BASIC_AUTH_USERNAME:
-  ATC_BASIC_AUTH_PASSWORD:
-  ATC_TEAM_NAME:
+  git_private_key:
+  pipeline_name:
+  concourse_url:
+  basic_auth_username:
+  basic_auth_password:
+  team_name:
+  patched_pipeline_s3_bucket:
+  pipeline_params:
 run:
   path: brkt-pcf-pipelines/tasks/set-pipeline/task.sh

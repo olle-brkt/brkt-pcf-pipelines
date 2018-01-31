@@ -15,8 +15,8 @@ resources:
 - name: patched-pipeline
   type: s3
   source:
-    access_key_id: {{aws_access_key_id}}
-    bucket: {{PATCHED_PIPELINE_S3_OUTPUT_BUCKET}}
+    access_key_id: {{pipeline_params.aws_access_key_id}}
+    bucket: {{pipeline_params.patched_pipeline_s3_bucket}}
     disable_ssl: false
     endpoint: {{S3_ENDPOINT}}
     region_name: {{aws_region}}
@@ -63,12 +63,12 @@ jobs:
   - task: set-pipeline
     file: brkt-pcf-pipelines/tasks/set-pipeline/task.yml
     params:
-      ATC_BASIC_AUTH_PASSWORD: {{basic_auth_password}}
-      ATC_BASIC_AUTH_USERNAME: {{basic_auth_username}}
-      ATC_EXTERNAL_URL: {{concourse_url}}
-      ATC_TEAM_NAME: {{team_name}}
-      GIT_PRIVATE_KEY: {{git_private_key}}
-      PEM: {{pem}}
-      PIPELINE_NAME: {{pipeline_name}}
-      PIPELINE_PARAMS: {{install_pcf_pipeline_params}}
-      PIPELINE_PATH: patched-pipeline/pipeline.yml
+      PEM: {{PEM}}
+      git_private_key: {{git_private_key}}
+      pipeline_name: {{pipeline_name}}
+      concourse_url: {{concourse_url}}
+      basic_auth_username: {{basic_auth_username}}
+      basic_auth_password: {{basic_auth_password}}
+      team_name: {{team_name}}
+      patched_pipeline_s3_bucket: {{patched_pipeline_s3_bucket}}
+      pipeline_params: {{pipeline_params}}

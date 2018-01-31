@@ -1,4 +1,5 @@
 #!/bin/bash
+
 set -eu
 
 echo "getting fly-cli from ${ATC_EXTERNAL_URL}/api/v1/cli?arch=amd64&platform=linux..."

@@ -1,7 +1,8 @@
 #!/bin/bash
+
 set -eu
 
-#TODO write this as functions, duh!
+echo "creating initial states..."
 
 # initialize terraform state
 files=$(aws --endpoint-url $S3_ENDPOINT --region $S3_REGION s3 ls "${S3_BUCKET_TERRAFORM}/")
@@ -35,20 +36,4 @@ if [ "$?" -gt "0" ]; then
   fi
 else
   echo "pipeline.yml file found, skipping"
-fi
-
-# initialize encrypted-amis-map state
-files=$(aws --endpoint-url $S3_ENDPOINT --region $S3_REGION s3 ls "${S3_BUCKET_ENCRYPTED_AMIS}/")
-set +e
-echo $files | grep encrypted-amis-map.yml
-if [ "$?" -gt "0" ]; then
-  echo "" > encrypted-amis-map.yml
-  aws s3 --endpoint-url $S3_ENDPOINT --region $S3_REGION cp encrypted-amis-map.yml "s3://${S3_BUCKET_ENCRYPTED_AMIS}/encrypted-amis-map.yml"
-  set +x
-  if [ "$?" -gt "0" ]; then
-    echo "Failed to upload empty encrypted-amis-map.yml file"
-    exit 1
-  fi
-else
-  echo "encrypted-amis-map.yml file found, skipping"
 fi

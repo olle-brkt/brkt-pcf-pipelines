@@ -4,14 +4,14 @@ image_resource:
   source:
     repository: czero/rootfs
 inputs:
+- name: ami
 - name: stock-ami
 - name: stemcell
-- name: results
 - name: brkt-pcf-pipelines
 outputs:
-- name: encrypted-stemcell
+- name: brktized-stemcell
 params:
   REGION:
   METAVISOR_VERSION:
 run:
-  path: brkt-pcf-pipelines/tasks/package-encrypted-stemcell/task.sh
+  path: brkt-pcf-pipelines/tasks/package-stemcell/task.sh
