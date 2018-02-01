@@ -132,10 +132,10 @@
       file: pcf-pipelines/tasks/apply-changes/task.yml
       params:
         OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
-        OPS_MGR_CLIENT_ID: {{opsman_client_id}}
-        OPS_MGR_CLIENT_SECRET: {{opsman_client_secret}}
-        OPS_MGR_USERNAME: {{opsman_admin_username}}
-        OPS_MGR_PASSWORD: {{opsman_admin_password}}
+        OPSMAN_CLIENT_ID: {{opsman_client_id}}
+        OPSMAN_CLIENT_SECRET: {{opsman_client_secret}}
+        OPSMAN_USERNAME: {{opsman_admin_username}}
+        OPSMAN_PASSWORD: {{opsman_admin_password}}
 
 ###############################################################################
 #### Update the upload-ert job with brktization tasks #########################
@@ -200,7 +200,7 @@
       file: pcf-pipelines/tasks/stage-product/task.yml
       params:
         OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
-        OPS_MGR_CLIENT_ID: {{opsman_client_id}}
-        OPS_MGR_CLIENT_SECRET: {{opsman_client_secret}}
-        OPS_MGR_USERNAME: {{opsman_admin_username}}
-        OPS_MGR_PASSWORD: {{opsman_admin_password}}
+        OPSMAN_CLIENT_ID: {{opsman_client_id}}
+        OPSMAN_CLIENT_SECRET: {{opsman_client_secret}}
+        OPSMAN_USERNAME: {{opsman_admin_username}}
+        OPSMAN_PASSWORD: {{opsman_admin_password}}
