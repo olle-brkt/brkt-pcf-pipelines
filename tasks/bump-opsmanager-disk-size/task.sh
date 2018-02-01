@@ -30,8 +30,14 @@ instance_id=$(aws ec2 --region $REGION describe-instances --filter Name=ip-addre
 echo "Rebooting Ops Manager, instance_id: $instance_id"
 aws ec2 --region $REGION reboot-instances --instance-ids $instance_id
 
+sleep 10
+
 echo "Waiting for Ops Manager to pass status checks..."
 aws ec2 wait --region $REGION instance-status-ok --instance-ids $instance_id
 
+sleep 10
+
 echo "Running 'lsblk' on the Ops Manager instance:"
 ssh -i ssh-key -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -oLogLevel=error ubuntu@$OPSMAN_DOMAIN_OR_IP_ADDRESS 'lsblk'
+
+exit 1 # temp. debugging
