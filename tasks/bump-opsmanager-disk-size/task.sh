@@ -38,9 +38,9 @@ aws ec2 wait --region $REGION instance-status-ok --instance-ids $instance_id
 sleep 60
 
 echo "Checking if 'lsblk' reports the new updated disk size..."
-until [[ "$(ssh -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -oLogLevel=error ubuntu@$opsman_ip 'lsblk | grep xvda1 | grep -Eo [0-9]+G')" == "100G" ]]
+until [[ "$(ssh -i ssh-key -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -oLogLevel=error ubuntu@$opsman_ip 'lsblk | grep xvda1 | grep -Eo [0-9]+G')" == "100G" ]]
 do
-    echo "Disk size reported by 'lsblk': $(ssh -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -oLogLevel=error ubuntu@$opsman_ip 'lsblk | grep xvda1 | grep -Eo [0-9]+G')B"
+    echo "Disk size reported by 'lsblk': $(ssh -i ssh-key -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -oLogLevel=error ubuntu@$opsman_ip 'lsblk | grep xvda1 | grep -Eo [0-9]+G')B"
     sleep 10
 done
 
