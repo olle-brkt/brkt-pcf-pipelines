@@ -23,7 +23,7 @@ until [[ "$(aws ec2 --region $REGION describe-volumes-modifications --volume-ids
 do
     progress="$(aws ec2 --region $REGION describe-volumes-modifications --volume-ids $volume_id | jq -r '.VolumesModifications[0].Progress')"
     echo "Modifying volume... $progress% done"
-    sleep 10
+    sleep 60
 done
 
 instance_id=$(aws ec2 --region $REGION describe-instances --filter Name=ip-address,Values=$opsman_ip | jq -r '.Reservations[0].Instances[0].InstanceId')
@@ -35,9 +35,14 @@ sleep 10
 echo "Waiting for Ops Manager to pass status checks..."
 aws ec2 wait --region $REGION instance-status-ok --instance-ids $instance_id
 
-sleep 10
+sleep 60
 
-echo "Running 'lsblk' on the Ops Manager instance:"
-ssh -i ssh-key -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -oLogLevel=error ubuntu@$OPSMAN_DOMAIN_OR_IP_ADDRESS 'lsblk'
+echo "Checking if 'lsblk' reports the new updated disk size..."
+until [[ "$(ssh -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -oLogLevel=error ubuntu@$opsman_ip 'lsblk | grep xvda1 | grep -Eo [0-9]+G')" == "100G" ]]
+do
+    echo "Disk size reported by 'lsblk': $(ssh -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -oLogLevel=error ubuntu@$opsman_ip 'lsblk | grep xvda1 | grep -Eo [0-9]+G')B"
+    sleep 10
+done
 
-exit 1 # temp. debugging
+echo "Disk size reported by 'lsblk': 100GB"
+echo "Done!"
