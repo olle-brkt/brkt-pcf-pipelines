@@ -5,7 +5,7 @@
 - op: replace
   path: /resources/name=pcf-pipelines
   value:
-    - name: pcf-pipelines
+      name: pcf-pipelines
       type: git
       source:
         uri: git@github.com:pivotal-cf/pcf-pipelines.git

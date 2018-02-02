@@ -3,9 +3,10 @@ resources:
 - name: pcf-pipelines
   type: git
   source:
-    branch: master
-    private_key: {{git_private_key}}
     uri: git@github.com:pivotal-cf/pcf-pipelines.git
+    branch: master
+    tag_filter: v0.23.0
+    private_key: {{git_private_key}}
 - name: brkt-pcf-pipelines
   type: git
   source:
