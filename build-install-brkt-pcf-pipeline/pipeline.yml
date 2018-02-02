@@ -5,6 +5,7 @@ resources:
   source:
     uri: git@github.com:pivotal-cf/pcf-pipelines.git
     branch: master
+    tag_filter: v0.23.0
     private_key: {{git_private_key}}
 - name: brkt-pcf-pipelines
   type: git
@@ -41,7 +42,6 @@ jobs:
   plan:
   - aggregate:
     - get: pcf-pipelines
-      version: {ref: 9a8fa7d}
     - get: brkt-pcf-pipelines
     - get: patched-pipeline
   - task: patch-pipeline
@@ -54,6 +54,7 @@ jobs:
 - name: set-pipeline
   plan:
   - aggregate:
+    - get: pcf-pipelines
     - get: brkt-pcf-pipelines
     - get: patched-pipeline
       passed:
