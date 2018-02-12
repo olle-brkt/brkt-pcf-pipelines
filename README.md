@@ -6,7 +6,7 @@ upgrade PCF deployments secured by Bracket.
 <!-- TOC -->
 
 - [brkt-pcf-pipelines](#brkt-pcf-pipelines)
-    - [`install-brkt-pcf` pipeline](#install-brkt-pcf-pipeline)
+    - [The `install-brkt-pcf` pipeline](#the-install-brkt-pcf-pipeline)
         - [Usage](#usage)
             - [Patching the stock pipeline](#patching-the-stock-pipeline)
             - [Deploy PCF (mostly) as usual](#deploy-pcf-mostly-as-usual)
@@ -17,7 +17,10 @@ upgrade PCF deployments secured by Bracket.
 <!-- /TOC -->
 
 
-## `install-brkt-pcf` pipeline
+<br><br>
+
+
+## The `install-brkt-pcf` pipeline
 
 ### Usage
 
