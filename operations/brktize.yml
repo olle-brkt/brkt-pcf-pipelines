@@ -76,7 +76,7 @@
         METAVISOR_VERSION: {{mv_version}}
 
 ###############################################################################
-#### Add the brkt-pcf-pipelines resource to the pipeline ######################
+#### Add bump-opsmanager-disk-size task #######################################
 ###############################################################################
 - op: add
   path: /jobs/name=create-infrastructure/plan/-
@@ -198,8 +198,6 @@
         PEM: {{PEM}}
     - task: upload-product
       file: brkt-pcf-pipelines/tasks/upload-product/task.yml
-      attempts: 5
-      timeout: 1h
       params:
         OPSMAN_PWD: {{opsman_admin_password}}
         OPSMAN_USR: {{opsman_admin_username}}

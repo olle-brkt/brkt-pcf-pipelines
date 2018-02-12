@@ -1,0 +1,11 @@
+# FQDN to the service-domain, for example mgmt.brkt.com
+service_domain: CHANGEME
+# email to your brkt account
+brkt_email: CHANGEME
+# password for the account above
+brkt_password: CHANGEME
+# version in the format: metavisor-<major>-<minor>-<patch>-<uuid> example: metavisor-2-18-48-g03c35705e
+mv_version: metavisor-2-18-48-g03c35705e
+# arguments given to the ops-manager and stemcell brktization operations
+ops_manager_wrap_args: --brkt-tag role=opsman --brkt-tag app=pcf
+stemcell_wrap_args: --brkt-tag role=stemcell --brkt-tag app=pcf
