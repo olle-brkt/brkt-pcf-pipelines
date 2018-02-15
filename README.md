@@ -17,6 +17,8 @@ This repo is a collection of operations, tasks and other resources to create PCF
 
 # The `install-brkt-pcf` pipeline
 
+Compatible with `pcf-pipepines/install/aws`, `v0.23.0`
+
 From the docs:
 
 "This pipeline uses Terraform to create the infrastructure required to run a
