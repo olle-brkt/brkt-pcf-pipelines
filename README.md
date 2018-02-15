@@ -1,7 +1,6 @@
 # brkt-pcf-pipelines
 
-This repo is a collection of operations, tasks and other resources to create or
-upgrade PCF deployments secured by Bracket.
+This repo is a collection of operations, tasks and other resources to create PCF deployments secured by Bracket.
 
 <!-- TOC -->
 - [The `install-brkt-pcf` pipeline](#the-install-brkt-pcf-pipeline)
@@ -86,7 +85,7 @@ If you want to bring the environment up again, run `create-infrastructure`.
 Do NOT use username `admin` for any of database credentials that you configure for this pipeline.
 
 ### Known Issues
-see: https://github.com/pivotal-cf/pcf-pipelines/blob/master/install-pcf/aws/README.md#known-issues
+see: https://github.com/pivotal-cf/pcf-pipelines/blob/v0.23.0/install-pcf/aws/README.md#known-issues
 
 ### Troubleshooting
-see: https://github.com/pivotal-cf/pcf-pipelines/blob/master/install-pcf/aws/README.md#troubleshooting
+see: https://github.com/pivotal-cf/pcf-pipelines/blob/v0.23.0/install-pcf/aws/README.md#troubleshooting
