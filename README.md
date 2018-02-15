@@ -75,7 +75,7 @@ Steps 1, 2 and 5-8 are just copied over from the pcf-pipelines project for conve
 
 8. Once DNS is set up you can run `configure-director`. From there the pipeline should automatically run through to the end.
 
-### Tearing down the environment
+## Tearing down the environment
 
 There is a job, `wipe-env`, which you can run to destroy the infrastructure
 that was created by `create-infrastructure`.
@@ -84,8 +84,8 @@ If you want to bring the environment up again, run `create-infrastructure`.
 
 Do NOT use username `admin` for any of database credentials that you configure for this pipeline.
 
-### Known Issues
+## Known Issues
 see: https://github.com/pivotal-cf/pcf-pipelines/blob/v0.23.0/install-pcf/aws/README.md#known-issues
 
-### Troubleshooting
+## Troubleshooting
 see: https://github.com/pivotal-cf/pcf-pipelines/blob/v0.23.0/install-pcf/aws/README.md#troubleshooting
