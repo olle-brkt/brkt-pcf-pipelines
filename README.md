@@ -41,7 +41,7 @@ Requirements:
 * [`yaml-patch`](https://github.com/pivotal-cf/yaml-patch)
 * [`fly`](https://concourse.ci/fly-cli.html) 
 ```
-fly format-pipeline -c <(cat path/to/pcf-pipeline/install-pcf/aws/pipeline.yml | yaml-patch -o path/to/brkt-pcf-pipelines/operations/brktize.yml > patched-pipeline.yml)
+fly format-pipeline -c <(cat path/to/pcf-pipeline/install-pcf/aws/pipeline.yml | yaml-patch --ops-file path/to/brkt-pcf-pipelines/operations/brktize.yml) > patched-pipeline.yml
 ```
 
 ---
