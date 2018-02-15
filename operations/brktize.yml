@@ -210,3 +210,10 @@
         OPSMAN_CLIENT_SECRET: {{opsman_client_secret}}
         OPSMAN_USERNAME: {{opsman_admin_username}}
         OPSMAN_PASSWORD: {{opsman_admin_password}}
+
+###############################################################################
+#### Add retries for the deploy-ert task ######################################
+###############################################################################
+- op: add
+  path: /jobs/name=deploy-ert/plan/task=deploy-ert/attempts
+  value: 5
