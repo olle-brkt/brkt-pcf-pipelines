@@ -18,5 +18,6 @@ params:
   EMAIL:
   PASSWORD:
   METAVISOR_VERSION:
+  ENCRYPTOR_AMI:
 run:
   path: brkt-pcf-pipelines/tasks/wrap-ami/task.sh

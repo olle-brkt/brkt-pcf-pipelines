@@ -12,6 +12,5 @@ outputs:
 - name: brktized-stemcell
 params:
   REGION:
-  METAVISOR_VERSION:
 run:
   path: brkt-pcf-pipelines/tasks/package-stemcell/task.sh

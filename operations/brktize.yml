@@ -74,6 +74,7 @@
         EMAIL: {{brkt_email}}
         PASSWORD: {{brkt_password}}
         METAVISOR_VERSION: {{mv_version}}
+        ENCRYPTOR_AMI: {{encryptor_ami}}
 
 ###############################################################################
 #### Add bump-opsmanager-disk-size task #######################################
@@ -124,11 +125,11 @@
         EMAIL: {{brkt_email}}
         PASSWORD: {{brkt_password}}
         METAVISOR_VERSION: {{mv_version}}
+        ENCRYPTOR_AMI: {{encryptor_ami}}
     - task: package-stemcell
       file: brkt-pcf-pipelines/tasks/package-stemcell/task.yml
       params:
         REGION: {{aws_region}}
-        METAVISOR_VERSION: {{mv_version}}
     - task: upload-director-stemcell
       file: brkt-pcf-pipelines/tasks/upload-director-stemcell/task.yml
       params:
@@ -184,11 +185,11 @@
         EMAIL: {{brkt_email}}
         PASSWORD: {{brkt_password}}
         METAVISOR_VERSION: {{mv_version}}
+        ENCRYPTOR_AMI: {{encryptor_ami}}
     - task: package-stemcell
       file: brkt-pcf-pipelines/tasks/package-stemcell/task.yml
       params:
         REGION: {{aws_region}}
-        METAVISOR_VERSION: {{mv_version}}
     - task: upload-stemcell
       file: brkt-pcf-pipelines/tasks/upload-stemcell/task.yml
       params:
