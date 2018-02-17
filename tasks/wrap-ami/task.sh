@@ -40,6 +40,7 @@ else
     ami_name="source: $source_ami wrapped by $ENCRYPTOR_AMI $(python -c 'import time; print time.strftime(" -- %m-%d-%Y - %H-%M-%S")')" | ./jq -r ".ImageId"
 echo "Running command: $cmd"
 $cmd | tee wrap.log &
+fi
 
 # Wait for all background tasks to complete
 wait
