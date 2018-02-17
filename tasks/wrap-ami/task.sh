@@ -34,10 +34,8 @@ fi
 if [[ $ENCRYPTOR_AMI == "automatic" ]]
 then
     cmd="brkt aws wrap-guest-image --service-domain $SERVICE_DOMAIN --region $REGION --metavisor-version $METAVISOR_VERSION $WRAP_ARGS $source_ami"
-    ami_name="$source_ami wrapped by $METAVISOR_VERSION $(python -c 'import time; print time.strftime(" -- %m-%d-%Y - %H-%M-%S")')" | ./jq -r ".ImageId"
 else
     cmd="brkt aws wrap-guest-image --service-domain $SERVICE_DOMAIN --region $REGION --encryptor-ami $ENCRYPTOR_AMI $WRAP_ARGS $source_ami"
-    ami_name="$source_ami wrapped by $ENCRYPTOR_AMI $(python -c 'import time; print time.strftime(" -- %m-%d-%Y - %H-%M-%S")')" | ./jq -r ".ImageId"
 fi
 echo "Running command: $cmd"
 $cmd | tee wrap.log &
@@ -50,7 +48,8 @@ echo "Instance ID: $instance_id"
 echo "Waiting for status checks..."
 aws ec2 wait --region $REGION instance-status-ok --instance-ids $instance_id
 
-cmd="aws ec2 create-image --region $REGION --instance-id $instance_id --name ${ami_name}"
+ami_name="$source_ami wrapped by brkt $(python -c 'import time; print time.strftime(" -- %m-%d-%Y - %H-%M-%S")')" | ./jq -r ".ImageId"
+cmd="aws ec2 create-image --region $REGION --instance-id $instance_id --name $ami_name"
 ami=$cmd
 if ! [[ $ami =~ ^ami- ]]; then
     echo "Wrapping failed!"
