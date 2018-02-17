@@ -21,7 +21,7 @@ auth_cmd="brkt auth --email $EMAIL --password $PASSWORD --root-url https://api.$
 echo "Running command: export BRKT_API_TOKEN=\$(brkt auth --email $EMAIL --password *** --root-url https://api.$SERVICE_DOMAIN:443)"
 export BRKT_API_TOKEN=$($auth_cmd)
 
-echo -e "Wrapping stemcell image $source_ami...\n Verifying arguments..."
+echo -e "Wrapping stemcell image $source_ami...\nVerifying arguments..."
 if [[ -z "$WRAP_ARGS" ]]
 then
     echo "No arguments given!"
@@ -38,6 +38,7 @@ then
 else
     cmd="brkt aws wrap-guest-image --service-domain $SERVICE_DOMAIN --region $REGION --encryptor-ami $ENCRYPTOR_AMI $WRAP_ARGS $source_ami"
     ami_name="$source_ami wrapped by $ENCRYPTOR_AMI $(python -c 'import time; print time.strftime(" -- %m-%d-%Y - %H-%M-%S")')" | ./jq -r ".ImageId"
+fi
 echo "Running command: $cmd"
 $cmd | tee wrap.log &
 
