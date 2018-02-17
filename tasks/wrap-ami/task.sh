@@ -50,7 +50,7 @@ echo "Instance ID: $instance_id"
 echo "Waiting for status checks..."
 aws ec2 wait --region $REGION instance-status-ok --instance-ids $instance_id
 
-cmd="aws ec2 create-image --region $REGION --instance-id $instance_id --name $ami_name"
+cmd="aws ec2 create-image --region $REGION --instance-id $instance_id --name ${ami_name}"
 ami=$cmd
 if ! [[ $ami =~ ^ami- ]]; then
     echo "Wrapping failed!"
