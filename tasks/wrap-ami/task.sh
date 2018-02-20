@@ -38,9 +38,10 @@ then
 else
     cmd="brkt aws wrap-guest-image --service-domain $SERVICE_DOMAIN --region $REGION --encryptor-ami $ENCRYPTOR_AMI $WRAP_ARGS $source_ami"
     ami_name="$source_ami wrapped by $ENCRYPTOR_AMI $(python -c 'import time; print time.strftime(" -- %m-%d-%Y - %H-%M-%S")')"
+fi
+
 echo "Running command: $cmd"
 $cmd | tee wrap.log &
-fi
 
 # Wait for all background tasks to complete
 wait
