@@ -68,13 +68,11 @@
       params:
         AWS_ACCESS_KEY_ID: {{aws_access_key_id}}
         AWS_SECRET_ACCESS_KEY: {{aws_secret_access_key}}
-        REGION: {{aws_region}}
-        SERVICE_DOMAIN: {{service_domain}}
-        WRAP_ARGS: {{ops_manager_wrap_args}}
-        EMAIL: {{brkt_email}}
-        PASSWORD: {{brkt_password}}
+        MV_AWS_REGION: {{aws_region}}
+        MV_SERVICE_DOMAIN: {{service_domain}}
+        MV_LAUNCH_TOKEN: {{opsman_launch_token}}
         METAVISOR_VERSION: {{mv_version}}
-        ENCRYPTOR_AMI: {{encryptor_ami}}
+        METAVISOR_AMI: {{mv_ami}}
 
 ###############################################################################
 #### Add bump-opsmanager-disk-size task #######################################
@@ -119,13 +117,11 @@
       params:
         AWS_ACCESS_KEY_ID: {{aws_access_key_id}}
         AWS_SECRET_ACCESS_KEY: {{aws_secret_access_key}}
-        REGION: {{aws_region}}
-        SERVICE_DOMAIN: {{service_domain}}
-        WRAP_ARGS: {{stemcell_wrap_args}}
-        EMAIL: {{brkt_email}}
-        PASSWORD: {{brkt_password}}
+        MV_AWS_REGION: {{aws_region}}
+        MV_SERVICE_DOMAIN: {{service_domain}}
+        MV_LAUNCH_TOKEN: {{stemcell_launch_token}}
         METAVISOR_VERSION: {{mv_version}}
-        ENCRYPTOR_AMI: {{encryptor_ami}}
+        METAVISOR_AMI: {{mv_ami}}
     - task: package-stemcell
       file: brkt-pcf-pipelines/tasks/package-stemcell/task.yml
       params:
@@ -179,13 +175,11 @@
       params:
         AWS_ACCESS_KEY_ID: {{aws_access_key_id}}
         AWS_SECRET_ACCESS_KEY: {{aws_secret_access_key}}
-        REGION: {{aws_region}}
-        SERVICE_DOMAIN: {{service_domain}}
-        WRAP_ARGS: {{stemcell_wrap_args}}
-        EMAIL: {{brkt_email}}
-        PASSWORD: {{brkt_password}}
+        MV_AWS_REGION: {{aws_region}}
+        MV_SERVICE_DOMAIN: {{service_domain}}
+        MV_LAUNCH_TOKEN: {{stemcell_launch_token}}
         METAVISOR_VERSION: {{mv_version}}
-        ENCRYPTOR_AMI: {{encryptor_ami}}
+        METAVISOR_AMI: {{mv_ami}}
     - task: package-stemcell
       file: brkt-pcf-pipelines/tasks/package-stemcell/task.yml
       params:

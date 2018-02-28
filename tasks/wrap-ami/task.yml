@@ -12,12 +12,10 @@ outputs:
 params:
   AWS_ACCESS_KEY_ID:
   AWS_SECRET_ACCESS_KEY:
-  REGION:
-  SERVICE_DOMAIN:
-  WRAP_ARGS:
-  EMAIL:
-  PASSWORD:
+  MV_AWS_REGION:
+  MV_SERVICE_DOMAIN:
+  MV_LAUNCH_TOKEN:
   METAVISOR_VERSION:
-  ENCRYPTOR_AMI:
+  METAVISOR_AMI:
 run:
   path: brkt-pcf-pipelines/tasks/wrap-ami/task.sh

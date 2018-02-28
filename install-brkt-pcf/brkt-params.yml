@@ -1,14 +1,11 @@
+# version in the format: metavisor-<major>-<minor>-<patch>-<uuid> example: metavisor-2-21-24-g4b95be082
+mv_version: CHANGEME
+# launch tokens used in the opsman and stemcell wrap-ami operations
+opsman_launch_token: CHANGEME
+stemcell_launch_token: CHANGEME
+
+## Dev. options
 # FQDN to the service-domain, for example mgmt.brkt.com
-service_domain: CHANGEME
-# email to your brkt account
-brkt_email: CHANGEME
-# password for the account above
-brkt_password: CHANGEME
-# version in the format: metavisor-<major>-<minor>-<patch>-<uuid> example: metavisor-2-18-48-g03c35705e
-mv_version: metavisor-2-18-48-g03c35705e
-# encryptor_ami should be set to automatic unless you want to override the mv_version param for some reason
-# recommended: automatic
-encryptor_ami: automatic
-# arguments given to the ops-manager and stemcell brktization operations
-ops_manager_wrap_args: --brkt-tag role=opsman --brkt-tag app=pcf
-stemcell_wrap_args: --brkt-tag role=stemcell --brkt-tag app=pcf
+service_domain: mgmt.brkt.com
+# mv_ami should be set to automatic unless you want to override the mv_version param for some reason
+mv_ami: automatic
