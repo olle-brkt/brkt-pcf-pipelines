@@ -20,8 +20,13 @@ echo -e "\nstemcell.MF:\n"
 cat stemcell.MF
 echo -e "\n"
 
-echo "Running: tar cfz $sc_file_path dev_tools_file_list.txt image stemcell.MF packages.txt"
-tar cfz "$sc_file_path" dev_tools_file_list.txt image stemcell.MF packages.txt
+if [[ -f packages.txt ]]; then
+    echo "Running: tar cfz $sc_file_path dev_tools_file_list.txt image stemcell.MF packages.txt"
+    tar cfz "$sc_file_path" dev_tools_file_list.txt image stemcell.MF packages.txt
+elif [[ -f stemcell_dpkg_l.txt ]]; then
+    echo "Running: tar cfz $sc_file_path dev_tools_file_list.txt image stemcell.MF stemcell_dpkg_l.txt"
+    tar cfz "$sc_file_path" dev_tools_file_list.txt image stemcell.MF stemcell_dpkg_l.txt
+fi
 
 # brktized stemcell to brktized-stemcell/$sc_file_path
 cp "$sc_file_path" "brktized-stemcell/$sc_file_path"
