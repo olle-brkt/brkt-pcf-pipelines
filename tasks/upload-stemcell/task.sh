@@ -8,32 +8,32 @@ curl -L -s -k -o jq "https://github.com/stedolan/jq/releases/download/jq-1.5/jq-
 chmod +x jq
 
 mv brktized-stemcell/*.tgz ./
-brktized_sc_path=$(find ./ -name *.tgz | sed "s|^\./||")
+brktized_sc_path=$(find ./ -name "*.tgz" | sed "s|^\./||")
 echo -e "Uploading $brktized_sc_path to $OPSMAN_DOMAIN_OR_IP_ADDRESS\n\n"
 
 echo -e "Getting director guid\n"
-director_guid="$(om-linux -t https://$OPSMAN_DOMAIN_OR_IP_ADDRESS -k \
+director_guid="$(om-linux -t "https://$OPSMAN_DOMAIN_OR_IP_ADDRESS" -k \
     -u "$OPSMAN_USR" \
     -p "$OPSMAN_PWD" \
     curl --path /api/v0/deployed/products \
     | ./jq --raw-output '.[] | select(.type == "p-bosh") | .guid')"
 
 echo -e "\n\nGetting director IP\n"
-director_ip="$(om-linux -t https://$OPSMAN_DOMAIN_OR_IP_ADDRESS -k \
+director_ip="$(om-linux -t "https://$OPSMAN_DOMAIN_OR_IP_ADDRESS" -k \
     -u "$OPSMAN_USR" \
     -p "$OPSMAN_PWD" \
-    curl --path /api/v0/deployed/products/$director_guid/static_ips \
+    curl --path "/api/v0/deployed/products/$director_guid/static_ips" \
     | ./jq --raw-output '.[] | .ips[0]')"
 
 echo -e "\n\nGetting UAA user credentials\n"
-login_password="$(om-linux -t https://$OPSMAN_DOMAIN_OR_IP_ADDRESS -k \
+login_password="$(om-linux -t "https://$OPSMAN_DOMAIN_OR_IP_ADDRESS" -k \
     -u "$OPSMAN_USR" \
     -p "$OPSMAN_PWD" \
     curl --path /api/v0/deployed/director/credentials/uaa_admin_user_credentials \
     | ./jq '.credential.value.password')"
 
 echo -e "\n\nGetting UAA login client credentials\n"
-client_secret="$(om-linux -t https://$OPSMAN_DOMAIN_OR_IP_ADDRESS -k \
+client_secret="$(om-linux -t "https://$OPSMAN_DOMAIN_OR_IP_ADDRESS" -k \
     -u "$OPSMAN_USR" \
     -p "$OPSMAN_PWD" \
     curl --path /api/v0/deployed/director/credentials/uaa_login_client_credentials \
@@ -51,10 +51,10 @@ echo "$PEM" > ssh-key
 chmod 700 ssh-key
 
 echo -e "\n\nscp:ing a stemcell uploader script to $OPSMAN_DOMAIN_OR_IP_ADDRESS"
-scp -i ssh-key -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -oLogLevel=error /tmp/upload_stemcell.sh ubuntu@$OPSMAN_DOMAIN_OR_IP_ADDRESS:upload_stemcell.sh
+scp -i ssh-key -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -oLogLevel=error /tmp/upload_stemcell.sh "ubuntu@$OPSMAN_DOMAIN_OR_IP_ADDRESS:upload_stemcell.sh"
 
 echo "scp:ing the brktized stemcell to $OPSMAN_DOMAIN_OR_IP_ADDRESS"
-scp -i ssh-key -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -oLogLevel=error $brktized_sc_path ubuntu@$OPSMAN_DOMAIN_OR_IP_ADDRESS:brktized_stemcell.tgz
+scp -i ssh-key -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -oLogLevel=error "$brktized_sc_path" "ubuntu@$OPSMAN_DOMAIN_OR_IP_ADDRESS:brktized_stemcell.tgz"
 
 echo "running the script..."
-ssh -i ssh-key -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -oLogLevel=error ubuntu@$OPSMAN_DOMAIN_OR_IP_ADDRESS 'chmod +x upload_stemcell.sh; ./upload_stemcell.sh'
+ssh -i ssh-key -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -oLogLevel=error "ubuntu@$OPSMAN_DOMAIN_OR_IP_ADDRESS" 'chmod +x upload_stemcell.sh; ./upload_stemcell.sh'

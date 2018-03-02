@@ -49,7 +49,7 @@ product_slug=$(
 ./pivnet-cli login --api-token="$PIVNET_API_TOKEN"
 ./pivnet-cli download-product-files -p "$product_slug" -r "$stemcell_version" -g "*$IAAS*" --accept-eula
 
-sc_file_path=$(find ./ -name *.tgz)
+sc_file_path=$(find ./ -name "*.tgz")
 
 if [ ! -f "$sc_file_path" ]; then
   echo "Stemcell file not found!"
@@ -57,9 +57,9 @@ if [ ! -f "$sc_file_path" ]; then
 fi
 
 # stock stemcell to stemcell/$sc_file_path
-cp $sc_file_path stemcell/$sc_file_path
+cp "$sc_file_path" "stemcell/$sc_file_path"
 
-tar xf $sc_file_path
+tar xf "$sc_file_path"
 source_ami=$(grep "$REGION" stemcell.MF | awk '{print $2}')
 echo "Stock stemcell ami: $source_ami"
 
