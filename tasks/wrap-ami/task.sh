@@ -17,4 +17,5 @@ else
 fi
 
 echo "Running: \"$cmd\""
+set -o pipefail
 $cmd | tee ami/ami
