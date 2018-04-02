@@ -6,7 +6,7 @@ echo "brktizing ami..."
 
 source_ami=$(cat stock-ami/ami)
 
-curl -L -s -k -o /bin/metavisor "https://github.com/brkt/metavisor-cli/releases/download/v1.0.0/metavisor-linux"
+curl -L -s -k -o /bin/metavisor "https://github.com/immutable/metavisor-cli/releases/download/v1.0.1/metavisor-linux"
 chmod +x /bin/metavisor
 
 if [[ $METAVISOR_AMI == "automatic" ]]
